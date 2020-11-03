@@ -7,7 +7,7 @@ import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import messages from '../AutoDismissAlert/messages'
 
-class AddWorkout extends React.Component {
+class AddExercise extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -36,29 +36,29 @@ class AddWorkout extends React.Component {
     // get the value that the user typed in
     const userInput = event.target.value
     // get the name of the input that the user typed in
-    const workoutKey = event.target.name
+    const exerciseKey = event.target.name
     // make a copy of the state
-    const workoutCopy = Object.assign({}, this.state.run) // to get the original state of the run and to copy it into another object to bypass inability to assign to a state
+    const exerciseCopy = Object.assign({}, this.state.run) // to get the original state of the run and to copy it into another object to bypass inability to assign to a state
     // Object.assign({}, object-to-copy) allows you to combine two objects
     // updating the key in our state with what the user typed in
-    workoutCopy[workoutKey] = userInput
+    exerciseCopy[exerciseKey] = userInput
     // updating the state with our new copy
-    this.setState({ workout: workoutCopy
+    this.setState({ exercise: exerciseCopy
     })
   }
 
   handleSubmit = (event) => {
     event.preventDefault()
     const { msgAlert, history } = this.props
-    const workout = this.state.workout
+    const exercise = this.state.exercise
     axios({
-      url: `${apiUrl}/workouts/`,
+      url: `${apiUrl}/exercises/`,
       method: 'POST',
       headers: {
         Authorization: 'Token ' + `${this.state.token}`
       },
       data: {
-        workout: workout
+        exercise: exercise
       }
     })
       .then((response) => this.setState({
@@ -66,15 +66,15 @@ class AddWorkout extends React.Component {
       })
       )
       .then(() => msgAlert({
-        heading: 'New Workout Created With Success',
-        message: messages.uploadWorkoutSuccess,
+        heading: 'New Exercise Created With Success',
+        message: messages.uploadExerciseSuccess,
         variant: 'success'
       }))
       .then(() => history.push('/profile'))
       .catch(error => {
         msgAlert({
-          heading: 'Could not upload a new workout, failed with error: ' + error.messages,
-          message: messages.uploadWorkoutFailure,
+          heading: 'Could not upload a new exercise, failed with error: ' + error.messages,
+          message: messages.uploadExerciseFailure,
           variant: 'danger'
         })
       })
@@ -85,20 +85,28 @@ class AddWorkout extends React.Component {
         <h1 className='user-name'>{this.props.user.email}</h1>
         <div className='create-stack'>
           <div className='create-header'>
-            <h3>Create a new workout</h3>
+            <h3>Add an exercise to your workout</h3>
           </div>
           <Col>
             <Form onSubmit={this.handleSubmit} >
-              <Form.Label><h5>Client:</h5></Form.Label>
+              <Form.Label><h5>Exercise:</h5></Form.Label>
               <Form.Control
-                name="client"
-                id="client"
+                name="name"
+                id="name"
                 type="text"
-                placeholder="Name"
+                placeholder="Name of desired exercise"
                 onChange={this.handleChange}
               />
-              <Form.Label><h5>DateRx:</h5></Form.Label>
-              <Form.Control name="date" id="date" onChange={this.handleChange} type="text" placeholder="When" />
+              <Form.Label><h5>Sets:</h5></Form.Label>
+              <Form.Control name="sets" id="sets" onChange={this.handleChange} type="number" placeholder="number of sets" min="0"/>
+              <Form.Label><h5>Repetitions:</h5></Form.Label>
+              <Form.Control name="repetitions" id="repetitions" onChange={this.handleChange} type="number" placeholder="number of repetitions" min="0"/>
+              <Form.Label><h5>Target rpe between 1-10 (optional):</h5></Form.Label>
+              <Form.Control name="rx_rpe" id="rx_rpe" onChange={this.handleChange} type="number" placeholder="rpe" min="0"/>
+              <Form.Label><h5>Target percentage (optional):</h5></Form.Label>
+              <Form.Control name="rx_percentage" id="rx_percentage" onChange={this.handleChange} type="number" placeholder="target percentage" min="0"/>
+              <Form.Label><h5>Target weight:</h5></Form.Label>
+              <Form.Control name="weight" id="weight" onChange={this.handleChange} type="number" placeholder="weight" min="0"/>
               <Form.Label><h5>Notes:</h5></Form.Label>
               <Form.Control name="notes" id="notes" onChange={this.handleChange} type="text" placeholder="notes" />
               <Button variant='primary' type="submit" className='create-submit'> Submit </Button>
@@ -109,4 +117,4 @@ class AddWorkout extends React.Component {
     )
   }
 }
-export default withRouter(AddWorkout)
+export default withRouter(AddExercise)
