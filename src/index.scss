@@ -1,2 +1,15 @@
-$primary: #646464;
+$primary: black;
 @import '~bootstrap/scss/bootstrap';
+
+body {
+  background: #303030;
+}
+
+.auth-forms {
+  backgroudn-color: black;
+  color: white;
+  border: 2px solid black;
+  border-radius: 2% / 10%;
+  box-shadow: 10px 10px black;
+  padding: 10px;
+}
