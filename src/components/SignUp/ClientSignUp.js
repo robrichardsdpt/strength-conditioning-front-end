@@ -1,19 +1,21 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 
-import { signIn } from '../../api/auth'
+import { signUp, signIn } from '../../api/auth'
 import messages from '../AutoDismissAlert/messages'
 
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 
-class SignIn extends Component {
+class SignUp extends Component {
   constructor () {
     super()
 
     this.state = {
+      name: '',
       email: '',
-      password: ''
+      password: '',
+      passwordConfirmation: ''
     }
   }
 
@@ -21,38 +23,50 @@ class SignIn extends Component {
     [event.target.name]: event.target.value
   })
 
-  onSignIn = event => {
+  onSignUp = event => {
     event.preventDefault()
 
     const { msgAlert, history, setUser } = this.props
 
-    signIn(this.state)
+    signUp(this.state)
+      .then(() => signIn(this.state))
       .then(res => setUser(res.data.user))
       .then(() => msgAlert({
-        heading: 'Sign In Success',
-        message: messages.signInSuccess,
+        heading: 'Sign Up Success',
+        message: messages.signUpSuccess,
         variant: 'success'
       }))
       .then(() => history.push('/'))
       .catch(error => {
-        this.setState({ email: '', password: '' })
+        this.setState({ email: '', password: '', passwordConfirmation: '' })
         msgAlert({
-          heading: 'Sign In Failed with error: ' + error.message,
-          message: messages.signInFailure,
+          heading: 'Sign Up Failed with error: ' + error.message,
+          message: messages.signUpFailure,
           variant: 'danger'
         })
       })
   }
 
   render () {
-    const { email, password } = this.state
+    const { name, email, password, passwordConfirmation } = this.state
 
     return (
       <div className="container">
         <div className="row">
-          <div className="col-sm-10 col-md-8 mx-auto mt-5 auth-forms">
-            <h3>Coach Sign In</h3>
-            <Form onSubmit={this.onSignIn}>
+          <div className="col-sm-10 col-md-8 mx-auto mt-5 client-auth-forms">
+            <h3>Client Sign Up</h3>
+            <Form onSubmit={this.onSignUp}>
+              <Form.Group controlId="name">
+                <Form.Label>Name</Form.Label>
+                <Form.Control
+                  required
+                  type="text"
+                  name="name"
+                  value={name}
+                  placeholder="Enter your name"
+                  onChange={this.handleChange}
+                />
+              </Form.Group>
               <Form.Group controlId="email">
                 <Form.Label>Email address</Form.Label>
                 <Form.Control
@@ -75,6 +89,17 @@ class SignIn extends Component {
                   onChange={this.handleChange}
                 />
               </Form.Group>
+              <Form.Group controlId="passwordConfirmation">
+                <Form.Label>Password Confirmation</Form.Label>
+                <Form.Control
+                  required
+                  name="passwordConfirmation"
+                  value={passwordConfirmation}
+                  type="password"
+                  placeholder="Confirm Password"
+                  onChange={this.handleChange}
+                />
+              </Form.Group>
               <Button
                 variant="primary"
                 type="submit"
@@ -89,4 +114,4 @@ class SignIn extends Component {
   }
 }
 
-export default withRouter(SignIn)
+export default withRouter(SignUp)

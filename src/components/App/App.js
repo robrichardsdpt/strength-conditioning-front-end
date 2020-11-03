@@ -6,6 +6,8 @@ import AutoDismissAlert from '../AutoDismissAlert/AutoDismissAlert'
 import Header from '../Header/Header'
 import SignUp from '../SignUp/SignUp'
 import SignIn from '../SignIn/SignIn'
+import ClientSignUp from '../SignUp/ClientSignUp'
+import ClientSignIn from '../SignIn/ClientSignIn'
 import SignOut from '../SignOut/SignOut'
 import ChangePassword from '../ChangePassword/ChangePassword'
 import Landing from '../Landing/Landing'
@@ -51,6 +53,12 @@ class App extends Component {
           )} />
           <Route path='/sign-in' render={() => (
             <SignIn msgAlert={this.msgAlert} setUser={this.setUser} />
+          )} />
+          <Route path='/client-sign-up' render={() => (
+            <ClientSignUp msgAlert={this.msgAlert} setUser={this.setUser} />
+          )} />
+          <Route path='/client-sign-in' render={() => (
+            <ClientSignIn msgAlert={this.msgAlert} setUser={this.setUser} />
           )} />
           <AuthenticatedRoute user={user} path='/sign-out' render={() => (
             <SignOut msgAlert={this.msgAlert} clearUser={this.clearUser} user={user} />

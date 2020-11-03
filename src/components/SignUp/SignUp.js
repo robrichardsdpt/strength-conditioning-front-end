@@ -12,6 +12,7 @@ class SignUp extends Component {
     super()
 
     this.state = {
+      name: '',
       email: '',
       password: '',
       passwordConfirmation: ''
@@ -47,13 +48,24 @@ class SignUp extends Component {
   }
 
   render () {
-    const { email, password, passwordConfirmation } = this.state
+    const { name, email, password, passwordConfirmation } = this.state
 
     return (
       <div className="container">
         <div className="row">
           <div className="col-sm-10 col-md-8 mx-auto mt-5 auth-forms">
-            <h3>Sign Up</h3>
+            <h3>Coach Sign Up</h3>
+            <Form.Group controlId="name">
+              <Form.Label>Name</Form.Label>
+              <Form.Control
+                required
+                type="text"
+                name="name"
+                value={name}
+                placeholder="Enter your name"
+                onChange={this.handleChange}
+              />
+            </Form.Group>
             <Form onSubmit={this.onSignUp}>
               <Form.Group controlId="email">
                 <Form.Label>Email address</Form.Label>

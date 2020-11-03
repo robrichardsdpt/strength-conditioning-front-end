@@ -1,6 +1,8 @@
 import React, { Fragment } from 'react'
 import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
+import Dropdown from 'react-bootstrap/Dropdown'
+import DropdownButton from 'react-bootstrap/DropdownButton'
 
 const authenticatedOptions = (
   <Fragment>
@@ -11,9 +13,14 @@ const authenticatedOptions = (
 )
 
 const unauthenticatedOptions = (
-  <Fragment>
-    <Nav.Link href="#sign-up">Sign Up</Nav.Link>
-    <Nav.Link href="#sign-in">Sign In</Nav.Link>
+  <Fragment><DropdownButton id="dropdown-basic-button" title="Coach Options">
+    <Dropdown.Item href="#sign-up">Sign Up</Dropdown.Item>
+    <Dropdown.Item href="#sign-in">Sign In</Dropdown.Item>
+  </DropdownButton>
+  <DropdownButton id="dropdown-basic-button" title="Client Options">
+    <Dropdown.Item href="#client-sign-up">Sign Up</Dropdown.Item>
+    <Dropdown.Item href="#client-sign-in">Sign In</Dropdown.Item>
+  </DropdownButton>
   </Fragment>
 )
 
