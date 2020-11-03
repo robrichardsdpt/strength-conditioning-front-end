@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 
-import { signUp, signIn } from '../../api/auth'
+import { signIn } from '../../api/auth'
+import { clientSignUp } from '../../api/client-auth'
 import messages from '../AutoDismissAlert/messages'
 
 import Form from 'react-bootstrap/Form'
@@ -28,9 +29,9 @@ class SignUp extends Component {
 
     const { msgAlert, history, setUser } = this.props
 
-    signUp(this.state)
+    clientSignUp(this.state)
       .then(() => signIn(this.state))
-      .then(res => setUser(res.data.user))
+      .then(res => setUser(res.data.client))
       .then(() => msgAlert({
         heading: 'Sign Up Success',
         message: messages.signUpSuccess,

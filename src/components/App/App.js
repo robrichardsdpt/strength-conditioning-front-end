@@ -13,6 +13,7 @@ import ChangePassword from '../ChangePassword/ChangePassword'
 import Landing from '../Landing/Landing'
 import Dashboard from '../Dashboard/Dashboard'
 import CoachDashboard from '../Dashboard/CoachDashboard'
+import Connect from '../Connect/Connect'
 
 class App extends Component {
   constructor () {
@@ -67,6 +68,11 @@ class App extends Component {
           )} />
           <AuthenticatedRoute user={this.state.user} path='/coach-dashboard' render={() => (
             <CoachDashboard
+              msgAlert={this.msgAlert}
+              user={this.state.user} />
+          )} />
+          <AuthenticatedRoute user={this.state.user} path='/connect' render={() => (
+            <Connect
               msgAlert={this.msgAlert}
               user={this.state.user} />
           )} />

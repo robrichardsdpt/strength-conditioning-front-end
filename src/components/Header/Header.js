@@ -1,23 +1,22 @@
 import React, { Fragment } from 'react'
 import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
-import Dropdown from 'react-bootstrap/Dropdown'
-import DropdownButton from 'react-bootstrap/DropdownButton'
+// import Dropdown from 'react-bootstrap/Dropdown'
+// import DropdownButton from 'react-bootstrap/DropdownButton'
 
 const authenticatedOptions = (
   <Fragment>
     <Nav.Link href="#dashboard">Dashboard</Nav.Link>
+    <Nav.Link href='#connect'>Connect</Nav.Link>
     <Nav.Link href="#change-password">Change Password</Nav.Link>
     <Nav.Link href="#sign-out">Sign Out</Nav.Link>
   </Fragment>
 )
 
 const unauthenticatedOptions = (
-  <Fragment><DropdownButton id="dropdown-basic-button" title="Sign Up">
-    <Dropdown.Item href="#sign-up">Coach Sign Up</Dropdown.Item>
-    <Dropdown.Item href="#client-sign-up">Lifter Sign Up</Dropdown.Item>
-  </DropdownButton>
-  <Nav.Link href="#sign-in">Sign In</Nav.Link>
+  <Fragment>
+    <Nav.Link href="#sign-up">Sign Up</Nav.Link>
+    <Nav.Link href="#sign-in">Sign In</Nav.Link>
   </Fragment>
 )
 
