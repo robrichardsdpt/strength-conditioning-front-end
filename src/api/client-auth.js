@@ -29,6 +29,20 @@ export const signIn = credentials => {
   })
 }
 
+export const index = credentials => {
+  return axios({
+    url: apiUrl + '/clients/',
+    method: 'GET',
+    data: {
+      credentials: {
+        name: credentials.name,
+        email: credentials.email,
+        password: credentials.password
+      }
+    }
+  })
+}
+
 export const signOut = user => {
   return axios({
     url: apiUrl + '/sign-out/',

@@ -11,6 +11,8 @@ import ClientSignIn from '../SignIn/ClientSignIn'
 import SignOut from '../SignOut/SignOut'
 import ChangePassword from '../ChangePassword/ChangePassword'
 import Landing from '../Landing/Landing'
+import Dashboard from '../Dashboard/Dashboard'
+import CoachDashboard from '../Dashboard/CoachDashboard'
 
 class App extends Component {
   constructor () {
@@ -59,6 +61,14 @@ class App extends Component {
           )} />
           <Route path='/client-sign-in' render={() => (
             <ClientSignIn msgAlert={this.msgAlert} setUser={this.setUser} />
+          )} />
+          <AuthenticatedRoute user={user} path='/dashboard' render={() => (
+            <Dashboard msgAlert={this.msgAlert} user={user} />
+          )} />
+          <AuthenticatedRoute user={this.state.user} path='/coach-dashboard' render={() => (
+            <CoachDashboard
+              msgAlert={this.msgAlert}
+              user={this.state.user} />
           )} />
           <AuthenticatedRoute user={user} path='/sign-out' render={() => (
             <SignOut msgAlert={this.msgAlert} clearUser={this.clearUser} user={user} />

@@ -6,21 +6,18 @@ import DropdownButton from 'react-bootstrap/DropdownButton'
 
 const authenticatedOptions = (
   <Fragment>
-    <Nav.Link href="#">Home</Nav.Link>
+    <Nav.Link href="#dashboard">Dashboard</Nav.Link>
     <Nav.Link href="#change-password">Change Password</Nav.Link>
     <Nav.Link href="#sign-out">Sign Out</Nav.Link>
   </Fragment>
 )
 
 const unauthenticatedOptions = (
-  <Fragment><DropdownButton id="dropdown-basic-button" title="Coach Options">
-    <Dropdown.Item href="#sign-up">Sign Up</Dropdown.Item>
-    <Dropdown.Item href="#sign-in">Sign In</Dropdown.Item>
+  <Fragment><DropdownButton id="dropdown-basic-button" title="Sign Up">
+    <Dropdown.Item href="#sign-up">Coach Sign Up</Dropdown.Item>
+    <Dropdown.Item href="#client-sign-up">Lifter Sign Up</Dropdown.Item>
   </DropdownButton>
-  <DropdownButton id="dropdown-basic-button" title="Client Options">
-    <Dropdown.Item href="#client-sign-up">Sign Up</Dropdown.Item>
-    <Dropdown.Item href="#client-sign-in">Sign In</Dropdown.Item>
-  </DropdownButton>
+  <Nav.Link href="#sign-in">Sign In</Nav.Link>
   </Fragment>
 )
 

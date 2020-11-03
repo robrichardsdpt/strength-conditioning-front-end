@@ -1,6 +1,4 @@
 import React from 'react'
-import CoachDashboard from './CoachDashboard'
-import ClientDashboard from './ClientDashboard'
 
 class Dashboard extends React.Component {
   constructor (props) {
@@ -15,10 +13,9 @@ class Dashboard extends React.Component {
   } // componentDidMount
 
   render () {
-    console.log(this.state.user)
+    console.log(`you made it into ${this.state.user.name}'s coach specific dashboard.`)
     return (
       <div>
-        { this.state.user.is_staff ? <CoachDashboard user={this.state.user} /> : <ClientDashboard user={this.state.user} /> }
       </div>
     )
   }
