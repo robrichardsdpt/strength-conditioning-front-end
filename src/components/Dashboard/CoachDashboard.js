@@ -20,8 +20,13 @@ class Dashboard extends React.Component {
     console.log(this.state.user)
     return (
       <Container>
+        <h2 className="name">{this.state.user.name}</h2>
         <Row>
-          <Col><h2 className="email-addy">{this.state.user.email}</h2>
+          <Col>
+            <h4 className="email-addy">{this.state.user.email}</h4>
+          </Col>
+          <Col>
+            <h6 className="bio">Bio: {this.state.user.bio}</h6>
           </Col>
         </Row>
         <Row>
