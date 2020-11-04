@@ -14,6 +14,8 @@ import Landing from '../Landing/Landing'
 import Dashboard from '../Dashboard/Dashboard'
 import CoachDashboard from '../Dashboard/CoachDashboard'
 import Connect from '../Connect/Connect'
+import CreateClient from '../CreateClient/CreateClient'
+import AddClientInfo from '../AddClientInfo/AddClientInfo'
 
 class App extends Component {
   constructor () {
@@ -70,6 +72,17 @@ class App extends Component {
             <CoachDashboard
               msgAlert={this.msgAlert}
               user={this.state.user} />
+          )} />
+          <AuthenticatedRoute user={this.state.user} path='/ceate-client' render={() => (
+            <CreateClient
+              msgAlert={this.msgAlert}
+              user={this.state.user} />
+          )} />
+          <AuthenticatedRoute user={this.state.user} path='/add-client-info' render={() => (
+            <AddClientInfo
+              msgAlert={this.msgAlert}
+              user={this.state.user}
+              client={this.state.client} />
           )} />
           <AuthenticatedRoute user={this.state.user} path='/connect' render={() => (
             <Connect
