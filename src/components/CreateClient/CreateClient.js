@@ -7,7 +7,7 @@ import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import messages from '../AutoDismissAlert/messages'
 
-class AddClient extends React.Component {
+class CreateClient extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -22,7 +22,8 @@ class AddClient extends React.Component {
         deadlift1RM: 0,
         deadlift1RM_goal: 0,
         total_goal: 0,
-        estimated_total: 0
+        estimated_total: 0,
+        coach: this.props.user.id
       },
       createdClientId: '',
       token: this.props.user.token
@@ -48,7 +49,7 @@ class AddClient extends React.Component {
   handleSubmit = (event) => {
     event.preventDefault()
     const { msgAlert, history } = this.props
-    const client = this.state.workout
+    const client = this.state.client
     axios({
       url: `${apiUrl}/clients/`,
       method: 'POST',
@@ -80,18 +81,18 @@ class AddClient extends React.Component {
   render () {
     return (
       <div className='top-of-create'>
-        <h1 className='user-name'>{this.props.user.email}</h1>
+        <h1 className='email-addy'>{this.props.user.email}</h1>
         <div className='create-stack'>
           <div className='create-header'>
-            <h3>Add a client</h3>
+            <h3 className= 'name'>Add a client</h3>
           </div>
           <Col>
             <Form onSubmit={this.handleSubmit} >
-              <Form.Label><h5>Name:</h5></Form.Label>
-              <Form.Control name="name" id="name" onChange={this.handleChange} type="text" placeholder="Who?" />
-              <Form.Label><h5>Email:</h5></Form.Label>
-              <Form.Control name="email" id="email" onChange={this.handleChange} type="text" placeholder="who@email.com" />
-              <Form.Label><h5>Notes:</h5></Form.Label>
+              <Form.Label className='title'><h5>Name:</h5></Form.Label>
+              <Form.Control name="name" id="name" onChange={this.handleChange} type="text" placeholder="Client Name" />
+              <Form.Label className='title'><h5>Email:</h5></Form.Label>
+              <Form.Control name="email" id="email" onChange={this.handleChange} type="text" placeholder="client@email.com" />
+              <Form.Label className='title'><h5>Notes:</h5></Form.Label>
               <Form.Control name="notes" id="notes" onChange={this.handleChange} type="text" placeholder="notes" />
               <Button variant='primary' type="submit" className='create-submit'> Submit </Button>
             </Form>
@@ -101,4 +102,4 @@ class AddClient extends React.Component {
     )
   }
 }
-export default withRouter(AddClient)
+export default withRouter(CreateClient)

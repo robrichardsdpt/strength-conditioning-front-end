@@ -13,6 +13,7 @@ import ChangePassword from '../ChangePassword/ChangePassword'
 import Landing from '../Landing/Landing'
 import Dashboard from '../Dashboard/Dashboard'
 import CoachDashboard from '../Dashboard/CoachDashboard'
+import ClientDashboard from '../Dashboard/ClientDashboard'
 import Connect from '../Connect/Connect'
 import CreateClient from '../CreateClient/CreateClient'
 import AddClientInfo from '../AddClientInfo/AddClientInfo'
@@ -73,7 +74,7 @@ class App extends Component {
               msgAlert={this.msgAlert}
               user={this.state.user} />
           )} />
-          <AuthenticatedRoute user={this.state.user} path='/ceate-client' render={() => (
+          <AuthenticatedRoute user={this.state.user} path='/create-client' render={() => (
             <CreateClient
               msgAlert={this.msgAlert}
               user={this.state.user} />
@@ -84,6 +85,17 @@ class App extends Component {
               user={this.state.user}
               client={this.state.client} />
           )} />
+          <AuthenticatedRoute user={user} path='/client-dashboard/:id' render={(userClientProps) => {
+            const { match, history } = userClientProps
+            const currentClientId = match.params.id
+            return (
+              <ClientDashboard
+                id={currentClientId}
+                msgAlert={this.msgAlert}
+                user={user}
+                history={history}/>
+            )
+          }} />
           <AuthenticatedRoute user={this.state.user} path='/connect' render={() => (
             <Connect
               msgAlert={this.msgAlert}

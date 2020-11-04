@@ -40,3 +40,18 @@ body {
 .bio {
   color: #03A89E
 }
+.bio-container {
+}
+.bio-content {
+  display: flex;
+  color: lightgray;
+}
+.icon {
+  display: flex;
+  color: lightgray;
+  justify-content: flex-end;
+}
+.client-name {
+  display: flex;
+  justify-content: space-between;
+}

@@ -1,12 +1,14 @@
 import React, { Fragment } from 'react'
 import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
+import { BiDumbbell } from 'react-icons/bi'
 // import Dropdown from 'react-bootstrap/Dropdown'
 // import DropdownButton from 'react-bootstrap/DropdownButton'
 
 const authenticatedOptions = (
   <Fragment>
     <Nav.Link href="#dashboard">Dashboard</Nav.Link>
+    <Nav.Link href='#create-client'>Add Client</Nav.Link>
     <Nav.Link href='#connect'>Connect</Nav.Link>
     <Nav.Link href="#change-password">Change Password</Nav.Link>
     <Nav.Link href="#sign-out">Sign Out</Nav.Link>
@@ -23,7 +25,9 @@ const unauthenticatedOptions = (
 const Header = ({ user }) => (
   <Navbar bg="primary" variant="dark" expand="md">
     <Navbar.Brand href="#">
+      <h4><BiDumbbell/>
       Lift Coach
+        <BiDumbbell/></h4>
     </Navbar.Brand>
     <Navbar.Toggle aria-controls="basic-navbar-nav" />
     <Navbar.Collapse id="basic-navbar-nav">
