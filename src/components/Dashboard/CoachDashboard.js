@@ -26,8 +26,15 @@ class Dashboard extends React.Component {
         </Row>
         <Row>
           <Col className='coach-data'>
+            <h4 className='title'>Total Clients Tracked:  </h4>
+            <Row>
+              <Col>
+                <h4 className='title'>Your Clients: </h4>
+              </Col>
+            </Row>
           </Col>
           <Col className='coach-options'>
+            <h4 className='title'>Coaching Options</h4>
           </Col>
         </Row>
       </Container>

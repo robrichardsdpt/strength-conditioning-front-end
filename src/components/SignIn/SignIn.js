@@ -54,7 +54,7 @@ class SignIn extends Component {
             <h3>Sign In</h3>
             <Form onSubmit={this.onSignIn}>
               <Form.Group controlId="email">
-                <Form.Label>Email address</Form.Label>
+                <Form.Label className='title'>Email address</Form.Label>
                 <Form.Control
                   required
                   type="email"
@@ -65,7 +65,7 @@ class SignIn extends Component {
                 />
               </Form.Group>
               <Form.Group controlId="password">
-                <Form.Label>Password</Form.Label>
+                <Form.Label className='title'>Password</Form.Label>
                 <Form.Control
                   required
                   name="password"
