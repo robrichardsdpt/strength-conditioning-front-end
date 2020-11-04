@@ -16,14 +16,14 @@ class AddWorkout extends React.Component {
         name: '',
         email: '',
         notes: '',
-        squat1RM: '',
-        squat1RM_goal: '',
-        bench1RM: '',
-        bench1RM_goal: '',
-        deadlift1RM: '',
-        deadlift1RM_goal: '',
-        total_goal: '',
-        estimated_total: ''
+        squat1RM: 0,
+        squat1RM_goal: 0,
+        bench1RM: 0,
+        bench1RM_goal: 0,
+        deadlift1RM: 0,
+        deadlift1RM_goal: 0,
+        total_goal: 0,
+        estimated_total: 0
       },
       token: this.props.user.token
     }

@@ -14,8 +14,17 @@ class AddClient extends React.Component {
       client: {
         name: '',
         email: '',
-        notes: ''
+        notes: '',
+        squat1RM: 0,
+        squat1RM_goal: 0,
+        bench1RM: 0,
+        bench1RM_goal: 0,
+        deadlift1RM: 0,
+        deadlift1RM_goal: 0,
+        total_goal: 0,
+        estimated_total: 0
       },
+      createdClientId: '',
       token: this.props.user.token
     }
   }
@@ -59,7 +68,7 @@ class AddClient extends React.Component {
         message: messages.uploadClientSuccess,
         variant: 'success'
       }))
-      .then(() => history.push('/profile'))
+      .then(() => history.push('/dashboard'))
       .catch(error => {
         msgAlert({
           heading: 'Could not upload your client, failed with error: ' + error.messages,
