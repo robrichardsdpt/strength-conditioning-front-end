@@ -38,7 +38,7 @@ body {
   color: lightgray;
 }
 .bio {
-  color: #03A89E
+  color: cyan;
 }
 .bio-container {
 }
@@ -57,4 +57,36 @@ body {
 }
 .content {
   color: lightgray;
+}
+.big3name{
+  color: darkcyan;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width:100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.modal-main {
+  position:fixed;
+  background: #303030;
+  width: 80%;
+  height: auto;
+  border-radius: 2% / 10%;
+  padding: 50px;
+  top:50%;
+  left:50%;
+  transform: translate(-50%,-50%);
+}
+
+.display-block {
+  display: block;
+}
+
+.display-none {
+  display: none;
 }
