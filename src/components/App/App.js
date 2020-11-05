@@ -100,7 +100,7 @@ class App extends Component {
                 id={currentWorkoutId}
                 msgAlert={this.msgAlert}
                 user={this.state.user}
-                history={history} />
+                history={history}/>
             )
           }} />
           <AuthenticatedRoute user={this.state.user} path='/add-client-info' render={() => (

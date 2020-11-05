@@ -25,7 +25,19 @@ class EditWorkout extends React.Component {
         owner: ''
       },
       createWorkoutId: '',
-      client: {},
+      client: {
+        name: '',
+        email: '',
+        notes: '',
+        squat1RM: 0,
+        squat1RM_goal: 0,
+        bench1RM: 0,
+        bench1RM_goal: 0,
+        deadlift1RM: 0,
+        deadlift1RM_goal: 0,
+        total_goal: 0,
+        estimated_total: 0
+      },
       token: this.props.user.token,
       workoutId: this.props.id,
       showEdit: false
@@ -153,6 +165,18 @@ class EditWorkout extends React.Component {
         this.setState({
           workout: response.data.workout
         })
+        return axios({
+          url: `${apiUrl}/clients/${this.state.workout.client}/`,
+          method: 'GET',
+          headers: {
+            Authorization: 'Token ' + `${this.state.token}`
+          }
+        })
+      })
+      .then(response => {
+        this.setState({
+          client: response.data.client
+        })
       })
       .catch(console.error)
   } // componentDidMount
@@ -164,14 +188,14 @@ class EditWorkout extends React.Component {
         <h1 className='email-addy'>{this.props.user.email}</h1>
         <div className='create-stack'>
           <div className='create-header'>
-            <h3>Create a new workout</h3>
+            <h3 className='title'>Create a new workout</h3>
           </div>
           <Col>
             <Form onSubmit={this.handleSubmit} >
               <h5 className="name">Client: {this.state.client.name}</h5>
-              <Form.Label><h5>Date:</h5></Form.Label>
+              <Form.Label className='title'><h5>Date:</h5></Form.Label>
               <Form.Control name="rx_date" id="rx_date" onChange={this.handleChange} type="text" value={this.state.workout.rx_date} />
-              <Form.Label><h5>Notes:</h5></Form.Label>
+              <Form.Label className='title'><h5>Notes:</h5></Form.Label>
               <Form.Control name="notes" id="notes" onChange={this.handleChange} type="text" value={this.state.workout.notes} />
               <Button variant='primary' type="submit" className='create-submit'> Submit </Button>
             </Form>
@@ -179,19 +203,17 @@ class EditWorkout extends React.Component {
           </Col>
           <Modal show={this.state.showEdit} client={this.state.client} handleClose={this.hideEditModal} handleEditSubmit={this.handleEditSubmit} handleEditChanges={this.handEditChanges}>
             <Col className='coach-data'>
-              <Form onSubmit={this.handleEditSubmit}>
+              <Form onSubmit={this.handleExerciseSubmit}>
                 <h2 className="name">{this.state.client.name}</h2>
                 <h4 className="email-addy">{this.state.client.email}</h4>
                 <h4 className='title'>Client Goals: </h4> <p className='content'> {this.state.client.notes} </p>
-                <h5 className='big3name'>Squat: <Form.Control value={this.state.client.squat1RM_goal} name='squat1RM_goal' id='squat1RM_goal' type='number' min='0' onChange={this.handleEditChanges}/></h5>
-                <h5 className='big3name'>Bench: <Form.Control value={this.state.client.bench1RM_goal} name='bench1RM_goal' id='bench1RM_goal' type='number' min='0' onChange={this.handleEditChanges}/></h5>
-                <h5 className='big3name'>Deadlift: <Form.Control value={this.state.client.deadlift1RM_goal} name='deadlift1RM_goal' id='deadlift1RM_goal' type='number' min='0' onChange={this.handleEditChanges}/></h5>
-                <h5 className='big3name'>Total: <Form.Control value={this.state.client.total_goal} name='total_goal' id='total_goal' type='number' min='0' onChange={this.handleEditChanges}/></h5>
-                <h4 className='title'>Current 1RM Statistics: </h4>
-                <h5 className='big3name'>Squat: <Form.Control value={this.state.client.squat1RM} name="squat1RM" id="squat1RM" type="number" min='0' onChange={this.handleEditChanges}/></h5>
-                <h5 className='big3name'>Bench: <Form.Control value={this.state.client.bench1RM} name="bench1RM" id="bench1RM" type="number" min='0' onChange={this.handleEditChanges}/></h5>
-                <h5 className='big3name'>Deadlift: <Form.Control value={this.state.client.deadlift1RM} name="deadlift1RM" id="deadlift1RM" type="number" min='0' onChange={this.handleEditChanges}/></h5>
-                <h5 className='big3name'>Total: {this.state.client.estimated_total}</h5>
+                <h5 className='big3name'>Exercise: <Form.Control placeholder='Exercise Name' name='name' id='name' type='text' onChange={this.handleExerciseChange}/></h5>
+                <h5 className='big3name'>Sets: <Form.Control placeholder='Number of Sets' name='bench1RM_goal' id='bench1RM_goal' type='number' min='0' onChange={this.handleExerciseChange}/></h5>
+                <h5 className='big3name'>Repetitions: <Form.Control placeholder='Number of Repetitions' name='deadlift1RM_goal' id='deadlift1RM_goal' type='number' min='0' onChange={this.handleExerciseChange}/></h5>
+                <h4 className='title'>Intensity (fill out one): </h4>
+                <h5 className='big3name'>Percentage?: <Form.Control placeholder='% of 1RM target for work sets' name="squat1RM" id="squat1RM" type="number" min='0' onChange={this.handleExerciseChange}/></h5>
+                <h5 className='big3name'>RPE?: <Form.Control placeholder='Target RPE' name="bench1RM" id="bench1RM" type="number" min='0' onChange={this.handleExerciseChange}/></h5>
+                <h5 className='big3name'>Weight: <Form.Control placeholder={this.state.exercise.weight} name="deadlift1RM" id="deadlift1RM" type="number" min='0' onChange={this.handleExerciseChange}/></h5>
                 <Button type='submit'>Update</Button>
               </Form>
             </Col>

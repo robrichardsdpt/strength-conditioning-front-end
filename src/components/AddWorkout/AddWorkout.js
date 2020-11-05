@@ -104,17 +104,17 @@ class AddWorkout extends React.Component {
     console.log(this.state)
     return (
       <div className='top-of-create'>
-        <h1 className='user-name'>{this.props.user.email}</h1>
+        <h1 className='email-addy'>{this.props.user.email}</h1>
         <div className='create-stack'>
           <div className='create-header'>
-            <h3>Create a new workout</h3>
+            <h3 className='title'>Create a new workout</h3>
           </div>
           <Col>
             <Form onSubmit={this.handleSubmit} >
               <h5 className="name">Client: {this.state.client.name}</h5>
-              <Form.Label><h5>Date:</h5></Form.Label>
+              <Form.Label className='title'><h5>Date:</h5></Form.Label>
               <Form.Control name="rx_date" id="rx_date" onChange={this.handleChange} type="text" placeholder="When" />
-              <Form.Label><h5>Notes:</h5></Form.Label>
+              <Form.Label className='title'><h5>Notes:</h5></Form.Label>
               <Form.Control name="notes" id="notes" onChange={this.handleChange} type="text" placeholder="notes" />
               <Button variant='primary' type="submit" className='create-submit'> Submit </Button>
             </Form>
