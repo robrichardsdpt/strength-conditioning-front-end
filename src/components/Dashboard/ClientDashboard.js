@@ -13,6 +13,8 @@ import Modal from '../EditClient/EditClient'
 import Form from 'react-bootstrap/Form'
 import messages from '../AutoDismissAlert/messages'
 import GetWorkouts from '../GetWorkouts/GetWorkouts'
+import PercentageGraph from '../PercentageGraph/PercentageGraph'
+import PercentOfTotal from '../PercentageGraph/PercentOfTotal'
 
 class Dashboard extends React.Component {
   constructor (props) {
@@ -144,19 +146,22 @@ class Dashboard extends React.Component {
             </Row>
             <Row>
               <Col className='coach-data'>
-                <h4 className='title'>Total Workouts Tracked:   </h4>
+                <h4 className='title'>Current percentage of total: </h4>
+                <PercentOfTotal clearUser={this.clearUser} user={this.state.token} data= {this.state.client} squat = {this.state.client.squat1RM} bench = {this.state.client.bench1RM} deadlift = {this.state.client.deadlift1RM}/>
                 <span className= 'icon iconLink' onClick={this.showEditModal}><FaRegEdit /></span>
                 <h4 className='title'>Client Goals: </h4> <p className='content'> {this.state.client.notes} </p>
-                <h4 className='title'>1 RM targets:</h4>
-                <h5 className='big3name'>Squat: {this.state.client.squat1RM_goal}</h5>
-                <h5 className='big3name'>Bench: {this.state.client.bench1RM_goal}</h5>
-                <h5 className='big3name'>Deadlift: {this.state.client.deadlift1RM_goal}</h5>
-                <h5 className='big3name'>Total: {this.state.client.total_goal}</h5>
-                <h4 className='title'>Current 1RM Statistics: </h4>
-                <h5 className='big3name'>Squat: {this.state.client.squat1RM}</h5>
-                <h5 className='big3name'>Bench: {this.state.client.bench1RM}</h5>
-                <h5 className='big3name'>Deadlift: {this.state.client.deadlift1RM}</h5>
-                <h5 className='big3name'>Total: {this.state.client.estimated_total}</h5>
+                <h5 className='big3name'>Current Squat 1RM: {this.state.client.squat1RM}</h5>
+                <h5 className='big3name'>Squat 1RM Goal: {this.state.client.squat1RM_goal}</h5>
+                <PercentageGraph clearUser={this.clearUser} user={this.state.token} data= {this.state.client} current = {this.state.client.squat1RM} goal = {this.state.client.squat1RM_goal}/>
+                <h5 className='big3name'>Current Bench 1RM: {this.state.client.bench1RM}</h5>
+                <h5 className='big3name'>Bench 1RM Goal: {this.state.client.bench1RM_goal}</h5>
+                <PercentageGraph clearUser={this.clearUser} user={this.state.token} data= {this.state.client} current = {this.state.client.bench1RM} goal = {this.state.client.bench1RM_goal}/>
+                <h5 className='big3name'>Current Deadlift 1RM: {this.state.client.deadlift1RM}</h5>
+                <h5 className='big3name'>Deadlift 1RM Goal: {this.state.client.deadlift1RM_goal}</h5>
+                <PercentageGraph clearUser={this.clearUser} user={this.state.token} data= {this.state.client} current = {this.state.client.deadlift1RM} goal = {this.state.client.deadlift1RM_goal}/>
+                <h5 className='big3name'>Current Total: {this.state.client.estimated_total}</h5>
+                <h5 className='big3name'>Total Goal: {this.state.client.total_goal}</h5>
+                <PercentageGraph clearUser={this.clearUser} user={this.state.token} data= {this.state.client} current = {this.state.client.estimated_total} goal = {this.state.client.total_goal}/>
               </Col>
             </Row>
           </Col>
