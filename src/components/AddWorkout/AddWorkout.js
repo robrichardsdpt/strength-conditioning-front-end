@@ -10,6 +10,7 @@ import messages from '../AutoDismissAlert/messages'
 class AddWorkout extends React.Component {
   constructor (props) {
     super(props)
+    console.log(this.props)
     this.state = {
       workout: {
         client: '',
@@ -27,7 +28,10 @@ class AddWorkout extends React.Component {
         notes: '',
         owner: ''
       },
-      token: this.props.user.token
+      createWorkoutId: '',
+      client: this.props.client,
+      token: this.props.user.token,
+      clientId: this.props.id
     }
   }
 
@@ -38,7 +42,7 @@ class AddWorkout extends React.Component {
     // get the name of the input that the user typed in
     const workoutKey = event.target.name
     // make a copy of the state
-    const workoutCopy = Object.assign({}, this.state.run) // to get the original state of the run and to copy it into another object to bypass inability to assign to a state
+    const workoutCopy = Object.assign({}, this.state.workout) // to get the original state of the run and to copy it into another object to bypass inability to assign to a state
     // Object.assign({}, object-to-copy) allows you to combine two objects
     // updating the key in our state with what the user typed in
     workoutCopy[workoutKey] = userInput
@@ -70,7 +74,7 @@ class AddWorkout extends React.Component {
         message: messages.uploadWorkoutSuccess,
         variant: 'success'
       }))
-      .then(() => history.push('/profile'))
+      .then(() => history.push('/client-dashboard/'))
       .catch(error => {
         msgAlert({
           heading: 'Could not upload a new workout, failed with error: ' + error.messages,
@@ -80,6 +84,7 @@ class AddWorkout extends React.Component {
       })
   }
   render () {
+    console.log(this.state)
     return (
       <div className='top-of-create'>
         <h1 className='user-name'>{this.props.user.email}</h1>

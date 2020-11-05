@@ -17,6 +17,7 @@ import ClientDashboard from '../Dashboard/ClientDashboard'
 import Connect from '../Connect/Connect'
 import CreateClient from '../CreateClient/CreateClient'
 import AddClientInfo from '../AddClientInfo/AddClientInfo'
+import AddWorkout from '../AddWorkout/AddWorkout'
 
 class App extends Component {
   constructor () {
@@ -76,6 +77,11 @@ class App extends Component {
           )} />
           <AuthenticatedRoute user={this.state.user} path='/create-client' render={() => (
             <CreateClient
+              msgAlert={this.msgAlert}
+              user={this.state.user} />
+          )} />
+          <AuthenticatedRoute user={this.state.user} path='/add-workout' render={() => (
+            <AddWorkout
               msgAlert={this.msgAlert}
               user={this.state.user} />
           )} />

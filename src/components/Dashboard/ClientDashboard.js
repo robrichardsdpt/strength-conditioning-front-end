@@ -129,8 +129,9 @@ class Dashboard extends React.Component {
             <Row>
               <Col className='coach-data'>
                 <h4 className='title'>Total Workouts Tracked:   </h4>
-                <span className= 'icon' onClick={this.showEditModal}><FaRegEdit /></span>
+                <span className= 'icon iconLink' onClick={this.showEditModal}><FaRegEdit /></span>
                 <h4 className='title'>Client Goals: </h4> <p className='content'> {this.state.client.notes} </p>
+                <h4 className='title'>1 RM targets:</h4>
                 <h5 className='big3name'>Squat: {this.state.client.squat1RM_goal}</h5>
                 <h5 className='big3name'>Bench: {this.state.client.bench1RM_goal}</h5>
                 <h5 className='big3name'>Deadlift: {this.state.client.deadlift1RM_goal}</h5>
@@ -159,6 +160,8 @@ class Dashboard extends React.Component {
             </Row>
             <Row>
               <Col><Link to='/dashboard'><Button>Coach Dashboard</Button></Link>
+              </Col>
+              <Col><Link to='/add-workout'><Button>Add Workout</Button></Link>
               </Col>
             </Row>
           </Col>

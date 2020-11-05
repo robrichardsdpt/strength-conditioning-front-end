@@ -46,11 +46,16 @@ body {
   display: flex;
   color: lightgray;
 }
+
 .icon {
   display: flex;
   color: lightgray;
   justify-content: flex-end;
 }
+.iconLink:hover {
+  cursor: pointer;
+}
+
 .client-name {
   display: flex;
   justify-content: space-between;
