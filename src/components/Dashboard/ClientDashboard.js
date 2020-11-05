@@ -93,7 +93,7 @@ class Dashboard extends React.Component {
         })
       })
   }
-  // api call to get random image from Unsplash API
+
   componentDidMount () {
     axios({
       url: `${apiUrl}/clients/${this.props.id}/`,
@@ -111,6 +111,7 @@ class Dashboard extends React.Component {
   } // componentDidMount
 
   render () {
+    console.log(this.state.client.coach)
     console.log(`you made it into ${this.state.client.name}'s client specific dashboard.`)
     return (
       <Container>
@@ -159,9 +160,9 @@ class Dashboard extends React.Component {
               </Col>
             </Row>
             <Row>
-              <Col><Link to='/dashboard'><Button>Coach Dashboard</Button></Link>
+              <Col><Link to={`/add-workout/${this.state.client.id}`}><Button>Add Workout</Button></Link>
               </Col>
-              <Col><Link to='/add-workout'><Button>Add Workout</Button></Link>
+              <Col><Link to='/dashboard'><Button>Coach Dashboard</Button></Link>
               </Col>
             </Row>
           </Col>

@@ -18,6 +18,7 @@ import Connect from '../Connect/Connect'
 import CreateClient from '../CreateClient/CreateClient'
 import AddClientInfo from '../AddClientInfo/AddClientInfo'
 import AddWorkout from '../AddWorkout/AddWorkout'
+import EditWorkout from '../EditWorkout/EditWorkout'
 
 class App extends Component {
   constructor () {
@@ -80,11 +81,28 @@ class App extends Component {
               msgAlert={this.msgAlert}
               user={this.state.user} />
           )} />
-          <AuthenticatedRoute user={this.state.user} path='/add-workout' render={() => (
-            <AddWorkout
-              msgAlert={this.msgAlert}
-              user={this.state.user} />
-          )} />
+          <AuthenticatedRoute user={this.state.user} path='/add-workout/:id' render={(userClientProps) => {
+            const { match, history } = userClientProps
+            const currentClientId = match.params.id
+            return (
+              <AddWorkout
+                id={currentClientId}
+                msgAlert={this.msgAlert}
+                user={this.state.user}
+                history={history} />
+            )
+          }} />
+          <AuthenticatedRoute user={this.state.user} path='/edit-workout/:id' render={(userWorkoutProps) => {
+            const { match, history } = userWorkoutProps
+            const currentWorkoutId = match.params.id
+            return (
+              <EditWorkout
+                id={currentWorkoutId}
+                msgAlert={this.msgAlert}
+                user={this.state.user}
+                history={history} />
+            )
+          }} />
           <AuthenticatedRoute user={this.state.user} path='/add-client-info' render={() => (
             <AddClientInfo
               msgAlert={this.msgAlert}

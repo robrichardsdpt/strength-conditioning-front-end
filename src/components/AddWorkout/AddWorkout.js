@@ -29,7 +29,7 @@ class AddWorkout extends React.Component {
         owner: ''
       },
       createWorkoutId: '',
-      client: this.props.client,
+      client: {},
       token: this.props.user.token,
       clientId: this.props.id
     }
@@ -46,6 +46,7 @@ class AddWorkout extends React.Component {
     // Object.assign({}, object-to-copy) allows you to combine two objects
     // updating the key in our state with what the user typed in
     workoutCopy[workoutKey] = userInput
+    workoutCopy['client'] = this.state.client.id
     // updating the state with our new copy
     this.setState({ workout: workoutCopy
     })
@@ -74,7 +75,7 @@ class AddWorkout extends React.Component {
         message: messages.uploadWorkoutSuccess,
         variant: 'success'
       }))
-      .then(() => history.push('/client-dashboard/'))
+      .then(() => history.push(`/edit-workout/${this.state.createdWorkoutId}`))
       .catch(error => {
         msgAlert({
           heading: 'Could not upload a new workout, failed with error: ' + error.messages,
@@ -83,6 +84,22 @@ class AddWorkout extends React.Component {
         })
       })
   }
+  componentDidMount () {
+    axios({
+      url: `${apiUrl}/clients/${this.props.id}/`,
+      method: 'GET',
+      headers: {
+        Authorization: 'Token ' + `${this.state.token}`
+      }
+    })
+      .then(response => {
+        this.setState({
+          client: response.data.client
+        })
+      })
+      .catch(console.error)
+  } // componentDidMount
+
   render () {
     console.log(this.state)
     return (
@@ -94,16 +111,9 @@ class AddWorkout extends React.Component {
           </div>
           <Col>
             <Form onSubmit={this.handleSubmit} >
-              <Form.Label><h5>Client:</h5></Form.Label>
-              <Form.Control
-                name="client"
-                id="client"
-                type="text"
-                placeholder="Name"
-                onChange={this.handleChange}
-              />
-              <Form.Label><h5>DateRx:</h5></Form.Label>
-              <Form.Control name="date" id="date" onChange={this.handleChange} type="text" placeholder="When" />
+              <h5 className="name">Client: {this.state.client.name}</h5>
+              <Form.Label><h5>Date:</h5></Form.Label>
+              <Form.Control name="rx_date" id="rx_date" onChange={this.handleChange} type="text" placeholder="When" />
               <Form.Label><h5>Notes:</h5></Form.Label>
               <Form.Control name="notes" id="notes" onChange={this.handleChange} type="text" placeholder="notes" />
               <Button variant='primary' type="submit" className='create-submit'> Submit </Button>
