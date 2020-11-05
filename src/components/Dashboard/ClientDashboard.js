@@ -7,17 +7,32 @@ import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
 // import Modal from 'react-bootstrap/Modal'
 import { Link } from 'react-router-dom'
+// import AuthenticatedRoute from '../AuthenticatedRoute/AuthenticatedRoute'
 import { FaRegEdit } from 'react-icons/fa'
 import Modal from '../EditClient/EditClient'
 import Form from 'react-bootstrap/Form'
 import messages from '../AutoDismissAlert/messages'
+import GetWorkouts from '../GetWorkouts/GetWorkouts'
 
 class Dashboard extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
       user: this.props.user,
-      client: {},
+      client: {
+        name: '',
+        email: '',
+        notes: '',
+        squat1RM: 0,
+        squat1RM_goal: 0,
+        bench1RM: 0,
+        bench1RM_goal: 0,
+        deadlift1RM: 0,
+        deadlift1RM_goal: 0,
+        total_goal: 0,
+        estimated_total: 0,
+        coach: ''
+      },
       token: this.props.user.token,
       showEdit: false,
       clientId: this.props.id
@@ -157,6 +172,9 @@ class Dashboard extends React.Component {
             <Row className='coach-options'>
               <Col>
                 <h4 className='title'>Client Options:</h4>
+                <GetWorkouts
+                  id={this.state.clientId}
+                  user={this.state.token}/>
               </Col>
             </Row>
             <Row>
@@ -182,7 +200,7 @@ class Dashboard extends React.Component {
               <h5 className='big3name'>Bench: <Form.Control value={this.state.client.bench1RM} name="bench1RM" id="bench1RM" type="number" min='0' onChange={this.handleEditChanges}/></h5>
               <h5 className='big3name'>Deadlift: <Form.Control value={this.state.client.deadlift1RM} name="deadlift1RM" id="deadlift1RM" type="number" min='0' onChange={this.handleEditChanges}/></h5>
               <h5 className='big3name'>Total: {this.state.client.estimated_total}</h5>
-              <Button type='submit'>Update</Button>
+              <Button className='updateButton' type='submit'>Update</Button>
             </Form>
           </Col>
         </Modal>
