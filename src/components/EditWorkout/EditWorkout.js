@@ -46,7 +46,7 @@ class EditWorkout extends React.Component {
       token: this.props.user.token,
       workoutId: this.props.id,
       showEdit: false,
-      valueOfDropdown: '',
+      valueOfDropdown: 'Click dropdown to select.',
       dropdownButtonTitle: 'Set Intensity'
     }
   }
@@ -66,16 +66,20 @@ class EditWorkout extends React.Component {
   handleDropdownClick = (event) => {
     const userInput = event.target.name
     let title = ''
+    let value = ''
     if (userInput === 'rx_percentage') {
       title = 'Percent of 1RM'
+      value = 'i.e. 75%'
     } else if (userInput === 'rx_rpe') {
       title = 'RPE'
+      value = 'i.e. 7'
     } else if (userInput === 'weight') {
       title = 'Weight'
+      value = 'i.e. 315'
     }
     // updating the state with our new copy
     this.setState({
-      valueOfDropdown: userInput,
+      valueOfDropdown: value,
       dropdownButtonTitle: title
     })
   }
