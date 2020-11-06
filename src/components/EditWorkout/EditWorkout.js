@@ -1,12 +1,13 @@
 import React from 'react'
 import axios from 'axios'
 import apiUrl from '../../apiConfig'
-import { withRouter } from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom'
 import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import messages from '../AutoDismissAlert/messages'
 import Modal from '../AddExercise/AddExerciseModal'
+import { FaSearch } from 'react-icons/fa'
 
 class EditWorkout extends React.Component {
   constructor (props) {
@@ -201,6 +202,20 @@ class EditWorkout extends React.Component {
 
   render () {
     console.log(this.state)
+    const jsxExerciseList = this.state.exercises.map(exercise => {
+      if (exercise.workout === this.state.workout.id) {
+        return (
+          <div key={exercise.id} size="4" className="stack">
+            <Col className='card-header'>
+              <h5 className= 'name'><Link to={`/exercise-dashboard/${exercise.id}`}><FaSearch className='magnifying-glass'/></Link>
+                {exercise.name}
+                Sets:  {exercise.sets}
+                Reps:  {exercise.reps}</h5>
+            </Col>
+          </div>
+        )
+      }
+    })
     return (
       <div className='top-of-create'>
         <h1 className='email-addy'>{this.props.user.email}</h1>
@@ -217,6 +232,7 @@ class EditWorkout extends React.Component {
               <Form.Control name='notes' id='notes' onChange={this.handleChange} type='text' value={this.state.workout.notes} />
               <Button variant='primary' type='submit' className='create-submit'> Submit </Button>
             </Form>
+            {jsxExerciseList}
             <Button variant='primary' onClick={this.showEditModal}> Add Exercise </Button>
           </Col>
           <Modal show={this.state.showEdit} client={this.state.client} handleClose={this.hideEditModal} handleEditSubmit={this.handleEditSubmit} handleEditChanges={this.handEditChanges}>
@@ -229,8 +245,8 @@ class EditWorkout extends React.Component {
                 <h5 className='big3name'>Sets: <Form.Control placeholder='Number of Sets' name='sets' id='sets' type='number' min='0' onChange={this.handleExerciseChange}/></h5>
                 <h5 className='big3name'>Repetitions: <Form.Control placeholder='Number of Repetitions' name='repetitions' id='repetitions' type='number' min='0' onChange={this.handleExerciseChange}/></h5>
                 <h4 className='title'>Intensity (fill out one): </h4>
-                <h5 className='big3name'>Percentage?: <Form.Control placeholder='% of 1RM target for work sets' name='rx_percentage' id='rx_percentage' type='number' min='0' onChange={this.handleExerciseChange}/></h5>
-                <h5 className='big3name'>RPE?: <Form.Control placeholder='Target RPE' name='rx_rpe' id='rx_rpe' type='number' min='0' onChange={this.handleExerciseChange}/></h5>
+                <h5 className='big3name'>Percentage?: <Form.Control placeholder='% of 1RM target for work sets' name='rx_percentage' id='rx_percentage' type='number' min='0' step='0.1' onChange={this.handleExerciseChange}/></h5>
+                <h5 className='big3name'>RPE?: <Form.Control placeholder='Target RPE' name='rx_rpe' id='rx_rpe' type='number' min='0' step='0.1' onChange={this.handleExerciseChange}/></h5>
                 <h5 className='big3name'>Weight: <Form.Control placeholder={this.state.exercise.weight} name='weight' id='weight' type='number' min='0' onChange={this.handleExerciseChange}/></h5>
                 <Button type='submit'>Update</Button>
               </Form>

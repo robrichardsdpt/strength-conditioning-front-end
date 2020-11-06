@@ -100,7 +100,7 @@ class Dashboard extends React.Component {
       return (
         <div key={client.id} size="4" className="stack">
           <Col className='card-header'>
-            <h5 className= 'client-name'>{client.name}  <Link to={`/client-dashboard/${client.id}`}><FaSearch/></Link></h5>
+            <h5 className= 'client-name'>{client.name}  <Link to={`/client-dashboard/${client.id}`}><FaSearch className='magnifying-glass'/></Link></h5>
             Email:  {client.email}
           </Col>
         </div>

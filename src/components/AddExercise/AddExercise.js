@@ -73,7 +73,7 @@ class AddExercise extends React.Component {
         message: messages.uploadExerciseSuccess,
         variant: 'success'
       }))
-      .then(() => history.push('/profile'))
+      .then(() => history.push(`/editWorkout/${this.state.workout.id}`))
       .catch(error => {
         msgAlert({
           heading: 'Could not upload a new exercise, failed with error: ' + error.messages,
