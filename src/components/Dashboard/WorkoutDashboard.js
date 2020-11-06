@@ -197,183 +197,195 @@ class EditWorkout extends React.Component {
       })
     }
   }
+handleExerciseChange = (event) => {
+  // get the value that the user typed in
+  const userInput = event.target.value
+  // get the name of the input that the user typed in
+  const exerciseKey = event.target.name
+  // make a copy of the state
+  const exerciseCopy = Object.assign({}, this.state.exercise) // to get the original state of the run and to copy it into another object to bypass inability to assign to a state
+  // Object.assign({}, object-to-copy) allows you to combine two objects
+  // updating the key in our state with what the user typed in
+  exerciseCopy[exerciseKey] = userInput
+  exerciseCopy['workout'] = this.state.workout.id
+  // updating the state with our new copy
+  this.setState({ exercise: exerciseCopy
+  })
+}
 
-  handleExerciseChange = (event) => {
-    // get the value that the user typed in
-    const userInput = event.target.value
-    // get the name of the input that the user typed in
-    const exerciseKey = event.target.name
-    // make a copy of the state
-    const exerciseCopy = Object.assign({}, this.state.exercise) // to get the original state of the run and to copy it into another object to bypass inability to assign to a state
-    // Object.assign({}, object-to-copy) allows you to combine two objects
-    // updating the key in our state with what the user typed in
-    exerciseCopy[exerciseKey] = userInput
-    exerciseCopy['workout'] = this.state.workout.id
-    // updating the state with our new copy
-    this.setState({ exercise: exerciseCopy
-    })
-  }
-
-  handleExerciseSubmit = (event) => {
-    event.preventDefault()
-    const { msgAlert, history } = this.props
-    const exercise = this.state.exercise
-    console.log(exercise)
-    axios({
-      url: `${apiUrl}/exercises/`,
-      method: 'Post',
-      headers: {
-        Authorization: 'Token ' + `${this.state.token}`
-      },
-      data: {
-        exercise: exercise
-      }
-    })
-      .then((response) =>
-        this.setState({
-          createdExerciseId: response.data.exercise.id
-        })
-      )
-      .then(() => msgAlert({
-        heading: 'New Workout Created With Success',
-        message: messages.uploadWorkoutSuccess,
-        variant: 'success'
-      }))
-      .then(() => {
-        history.push(`/edit-workout/${this.state.createdWorkoutId}`)
-        return axios({
-          url: `${apiUrl}/exercises/`,
-          method: 'GET',
-          headers: {
-            Authorization: 'Token ' + `${this.state.token}`
-          }
-        })
-          .then(response => {
-            console.log(response.data.exercises)
-            this.setState({
-              exercises: response.data.exercises
-            })
-          })
+handleExerciseSubmit = (event) => {
+  event.preventDefault()
+  const { msgAlert, history } = this.props
+  const exercise = this.state.exercise
+  console.log(exercise)
+  axios({
+    url: `${apiUrl}/exercises/`,
+    method: 'Post',
+    headers: {
+      Authorization: 'Token ' + `${this.state.token}`
+    },
+    data: {
+      exercise: exercise
+    }
+  })
+    .then((response) =>
+      this.setState({
+        createdExerciseId: response.data.exercise.id
       })
-      .catch(error => {
-        msgAlert({
-          heading: 'Could not upload a new workout, failed with error: ' + error.messages,
-          message: messages.uploadWorkoutFailure,
-          variant: 'danger'
-        })
-      })
-  }
-  componentDidMount () {
-    axios({
-      url: `${apiUrl}/workouts/${this.props.id}/`,
-      method: 'GET',
-      headers: {
-        Authorization: 'Token ' + `${this.state.token}`
-      }
-    })
-      .then(response => {
-        this.setState({
-          workout: response.data.workout
-        })
-        return axios({
-          url: `${apiUrl}/clients/${this.state.workout.client}/`,
-          method: 'GET',
-          headers: {
-            Authorization: 'Token ' + `${this.state.token}`
-          }
-        })
-      })
-      .then(response => {
-        this.setState({
-          client: response.data.client
-        })
-      })
-      .catch(console.error)
-  } // componentDidMount
-
-  render () {
-    console.log(this.state)
-    const jsxExerciseList = this.state.exercises.map(exercise => {
-      if (exercise.workout === this.state.workout.id) {
-        return (
-          <div key={exercise.id} size="4" className="stack">
-            <Col className='card-header'>
-              <h5 className= 'name'><Link to={`/exercise-dashboard/${exercise.id}`}><FaSearch className='magnifying-glass'/></Link>
-                &emsp; {exercise.name}
-              </h5>
-            </Col>
-            <Col>
-              Sets: &emsp; &emsp; {exercise.sets}
-            </Col>
-            <Col>
-              Repetitions: &emsp; {exercise.repetitions}
-            </Col>
-            <Col>
-              Percentage target: &emsp; {exercise.rx_percentage}
-            </Col>
-            <Col>
-            RPE target: &emsp; {exercise.rx_rpe}
-            </Col>
-            <Col>
-            Target work weight: &emsp; {exercise.weight}
-            </Col>
-          </div>
-        )
-      }
-    })
-    return (
-      <div className='top-of-create'>
-        <h1 className='email-addy'>{this.props.user.email}</h1>
-        <div className='create-stack'>
-          <div className='create-header'>
-            <h3 className='title'>Create a new workout</h3>
-          </div>
-          <Col>
-            <Form onSubmit={this.handleSubmit} >
-              <h5 className='name'>Client: {this.state.client.name}</h5>
-              <Form.Label className='title'><h5>Date:</h5></Form.Label>
-              <Form.Control name='rx_date' id='rx_date' onChange={this.handleChange} type='text' value={this.state.workout.rx_date} />
-              <Form.Label className='title'><h5>Notes:</h5></Form.Label>
-              <Form.Control name='notes' id='notes' onChange={this.handleChange} type='text' value={this.state.workout.notes} />
-              <Button variant='primary' type='submit' className='create-submit'> Submit </Button>
-            </Form>
-            {jsxExerciseList}
-            <Button variant='primary' onClick={this.showEditModal}> Add Exercise </Button>
-          </Col>
-          <Modal show={this.state.showEdit} client={this.state.client} handleClose={this.hideEditModal} handleEditSubmit={this.handleEditSubmit} handleEditChanges={this.handEditChanges}>
-            <Col className='coach-data'>
-              <Form onSubmit={this.handleExerciseSubmit}>
-                <h2 className='name'>{this.state.client.name}</h2>
-                <h4 className='email-addy'>{this.state.client.email}</h4>
-                <h4 className='title'>Client Goals: </h4> <p className='content'> {this.state.client.notes} </p>
-                <h5 className='big3name'>Exercise: <Form.Control placeholder='Exercise Name' name='name' id='name' type='text' onChange={this.handleExerciseChange}/></h5>
-                <h5 className='big3name'>Sets: <Form.Control placeholder='Number of Sets' name='sets' id='sets' type='number' min='0' onChange={this.handleExerciseChange}/></h5>
-                <h5 className='big3name'>Repetitions: <Form.Control placeholder='Number of Repetitions' name='repetitions' id='repetitions' type='number' min='0' onChange={this.handleExerciseChange}/></h5>
-                <h4 className='title'>Intensity (based on): </h4>
-                <InputGroup className="mb-3">
-                  <DropdownButton
-                    as={InputGroup.Prepend}
-                    variant="outline-secondary"
-                    title="Dropdown"
-                    id="input-group-dropdown-1"
-                  >
-                    <Dropdown.Item name='rx_percentage' onClick={this.handleDropdownClick}>Percentage</Dropdown.Item>
-                    <Dropdown.Item name='rx_rpe' onClick={this.handleDropdownClick}>RPE</Dropdown.Item>
-                    <Dropdown.Item name='weight' onClick={this.handleDropdownClick}>Weight used</Dropdown.Item>
-                  </DropdownButton>
-                  <FormControl aria-describedby="basic-addon1" name={this.state.valueOfDropdown} placeholder={this.state.valueOfDropdown}type='number' min='0' step='0.1' onChange={this.handleIntensityChange}/>
-                </InputGroup>
-                <h5 className='big3name'>Percentage: <Form.Control placeholder={this.state.exercise.rx_percentage} name='rx_percentage' id='rx_percentage' type='number' min='0' step='0.1' onChange={this.handleExerciseChange}/></h5>
-                <h5 className='big3name'>RPE?: <Form.Control placeholder={this.state.exercise.rx_rpe} name='rx_rpe' id='rx_rpe' type='number' min='0' step='0.1' onChange={this.handleExerciseChange}/></h5>
-                <h5 className='big3name'>Weight: <Form.Control placeholder={this.state.exercise.weight} name='weight' id='weight' type='number' min='0' onChange={this.handleExerciseChange}/></h5>
-                <h5 className='big3name'>Notes: <Form.Control placeholder='Notes' name='notes' id='names' type='text' onChange={this.handleExerciseChange}/></h5>
-                <Button type='submit'>Update</Button>
-              </Form>
-            </Col>
-          </Modal>
-        </div>
-      </div>
     )
-  }
+    .then(() => msgAlert({
+      heading: 'New Workout Created With Success',
+      message: messages.uploadWorkoutSuccess,
+      variant: 'success'
+    }))
+    .then(() => {
+      history.push(`/edit-workout/${this.state.createdWorkoutId}`)
+      return axios({
+        url: `${apiUrl}/exercises/`,
+        method: 'GET',
+        headers: {
+          Authorization: 'Token ' + `${this.state.token}`
+        }
+      })
+        .then(response => {
+          console.log(response.data.exercises)
+          this.setState({
+            exercises: response.data.exercises
+          })
+        })
+    })
+    .catch(error => {
+      msgAlert({
+        heading: 'Could not upload a new workout, failed with error: ' + error.messages,
+        message: messages.uploadWorkoutFailure,
+        variant: 'danger'
+      })
+    })
+}
+componentDidMount () {
+  axios({
+    url: `${apiUrl}/workouts/${this.props.id}/`,
+    method: 'GET',
+    headers: {
+      Authorization: 'Token ' + `${this.state.token}`
+    }
+  })
+    .then(response => {
+      this.setState({
+        workout: response.data.workout
+      })
+      return axios({
+        url: `${apiUrl}/clients/${this.state.workout.client}/`,
+        method: 'GET',
+        headers: {
+          Authorization: 'Token ' + `${this.state.token}`
+        }
+      })
+    })
+    .then(response => {
+      this.setState({
+        client: response.data.client
+      })
+      return axios({
+        url: `${apiUrl}/exercises/`,
+        method: 'GET',
+        headers: {
+          Authorization: 'Token ' + `${this.state.token}`
+        }
+      })
+        .then(response => {
+          console.log(response.data.exercises)
+          this.setState({
+            exercises: response.data.exercises
+          })
+        })
+    })
+    .catch(console.error)
+} // componentDidMount
+
+render () {
+  console.log(this.state)
+  const jsxExerciseList = this.state.exercises.map(exercise => {
+    if (exercise.workout === this.state.workout.id) {
+      return (
+        <div key={exercise.id} size="4" className="stack">
+          <Col className='card-header'>
+            <h5 className= 'name'><Link to={`/exercise-dashboard/${exercise.id}`}><FaSearch className='magnifying-glass'/></Link>
+              &emsp; {exercise.name}
+            </h5>
+          </Col>
+          <Col>
+            Sets: &emsp; &emsp; {exercise.sets}
+          </Col>
+          <Col>
+            Repetitions: &emsp; {exercise.repetitions}
+          </Col>
+          <Col>
+            Percentage target: &emsp; {exercise.rx_percentage}
+          </Col>
+          <Col>
+          RPE target: &emsp; {exercise.rx_rpe}
+          </Col>
+          <Col>
+          Target work weight: &emsp; {exercise.weight}
+          </Col>
+        </div>
+      )
+    }
+  })
+  return (
+    <div className='top-of-create'>
+      <h1 className='email-addy'>{this.props.user.email}</h1>
+      <div className='create-stack'>
+        <div className='create-header'>
+          <h3 className='title'>Create a new workout</h3>
+        </div>
+        <Col>
+          <Form onSubmit={this.handleSubmit} >
+            <h5 className='name'>Client: {this.state.client.name}</h5>
+            <Form.Label className='title'><h5>Date:</h5></Form.Label>
+            <Form.Control name='rx_date' id='rx_date' onChange={this.handleChange} type='text' value={this.state.workout.rx_date} />
+            <Form.Label className='title'><h5>Notes:</h5></Form.Label>
+            <Form.Control name='notes' id='notes' onChange={this.handleChange} type='text' value={this.state.workout.notes} />
+            <Button variant='primary' type='submit' className='create-submit'> Submit </Button>
+          </Form>
+          {jsxExerciseList}
+          <Button variant='primary' onClick={this.showEditModal}> Add Exercise </Button>
+        </Col>
+        <Modal show={this.state.showEdit} client={this.state.client} handleClose={this.hideEditModal} handleEditSubmit={this.handleEditSubmit} handleEditChanges={this.handEditChanges}>
+          <Col className='coach-data'>
+            <Form onSubmit={this.handleExerciseSubmit}>
+              <h2 className='name'>{this.state.client.name}</h2>
+              <h4 className='email-addy'>{this.state.client.email}</h4>
+              <h4 className='title'>Client Goals: </h4> <p className='content'> {this.state.client.notes} </p>
+              <h5 className='big3name'>Exercise: <Form.Control placeholder='Exercise Name' name='name' id='name' type='text' onChange={this.handleExerciseChange}/></h5>
+              <h5 className='big3name'>Sets: <Form.Control placeholder='Number of Sets' name='sets' id='sets' type='number' min='0' onChange={this.handleExerciseChange}/></h5>
+              <h5 className='big3name'>Repetitions: <Form.Control placeholder='Number of Repetitions' name='repetitions' id='repetitions' type='number' min='0' onChange={this.handleExerciseChange}/></h5>
+              <h4 className='title'>Intensity (based on): </h4>
+              <InputGroup className="mb-3">
+                <DropdownButton
+                  as={InputGroup.Prepend}
+                  variant="outline-secondary"
+                  title="Dropdown"
+                  id="input-group-dropdown-1"
+                >
+                  <Dropdown.Item name='rx_percentage' onClick={this.handleDropdownClick}>Percentage</Dropdown.Item>
+                  <Dropdown.Item name='rx_rpe' onClick={this.handleDropdownClick}>RPE</Dropdown.Item>
+                  <Dropdown.Item name='weight' onClick={this.handleDropdownClick}>Weight used</Dropdown.Item>
+                </DropdownButton>
+                <FormControl aria-describedby="basic-addon1" name={this.state.valueOfDropdown} placeholder={this.state.valueOfDropdown}type='number' min='0' step='0.1' onChange={this.handleIntensityChange}/>
+              </InputGroup>
+              <h5 className='big3name'>Percentage: <Form.Control placeholder={this.state.exercise.rx_percentage} name='rx_percentage' id='rx_percentage' type='number' min='0' step='0.1' onChange={this.handleExerciseChange}/></h5>
+              <h5 className='big3name'>RPE?: <Form.Control placeholder={this.state.exercise.rx_rpe} name='rx_rpe' id='rx_rpe' type='number' min='0' step='0.1' onChange={this.handleExerciseChange}/></h5>
+              <h5 className='big3name'>Weight: <Form.Control placeholder={this.state.exercise.weight} name='weight' id='weight' type='number' min='0' onChange={this.handleExerciseChange}/></h5>
+              <h5 className='big3name'>Notes: <Form.Control placeholder='Notes' name='notes' id='names' type='text' onChange={this.handleExerciseChange}/></h5>
+              <Button type='submit'>Update</Button>
+            </Form>
+          </Col>
+        </Modal>
+      </div>
+    </div>
+  )
+}
 }
 export default withRouter(EditWorkout)

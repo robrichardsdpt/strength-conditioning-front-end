@@ -14,6 +14,7 @@ import Landing from '../Landing/Landing'
 import Dashboard from '../Dashboard/Dashboard'
 import CoachDashboard from '../Dashboard/CoachDashboard'
 import ClientDashboard from '../Dashboard/ClientDashboard'
+import WorkoutDashboard from '../Dashboard/WorkoutDashboard'
 import Connect from '../Connect/Connect'
 import CreateClient from '../CreateClient/CreateClient'
 import AddClientInfo from '../AddClientInfo/AddClientInfo'
@@ -97,6 +98,17 @@ class App extends Component {
             const currentWorkoutId = match.params.id
             return (
               <EditWorkout
+                id={currentWorkoutId}
+                msgAlert={this.msgAlert}
+                user={this.state.user}
+                history={history}/>
+            )
+          }} />
+          <AuthenticatedRoute user={this.state.user} path='/workout-dashboard/:id' render={(userWorkoutProps) => {
+            const { match, history } = userWorkoutProps
+            const currentWorkoutId = match.params.id
+            return (
+              <WorkoutDashboard
                 id={currentWorkoutId}
                 msgAlert={this.msgAlert}
                 user={this.state.user}
