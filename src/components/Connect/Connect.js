@@ -64,14 +64,16 @@ class Connect extends React.Component {
     })
 
     const jsxCoach = coachingStaff.map(user => {
-      return (
-        <div key={user.id} size="4" className="stack">
-          <Col className='card-header'>
-            <h5>{user.name}</h5>
-            Email:  {user.email}
-          </Col>
-        </div>
-      )
+      if (user.id !== this.state.user.id) {
+        return (
+          <div key={user.id} size="4" className="stack">
+            <Col className='card-header'>
+              <h5>{user.name}</h5>
+              Email:  {user.email}
+            </Col>
+          </div>
+        )
+      }
     })
 
     return (
