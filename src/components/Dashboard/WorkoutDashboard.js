@@ -93,8 +93,9 @@ class EditWorkout extends React.Component {
     event.preventDefault()
     const { msgAlert, history } = this.props
     const workout = this.state.workout
+    console.log(this.state.workout)
     axios({
-      url: `${apiUrl}/workouts/${this.props.id}`,
+      url: `${apiUrl}/workouts/${this.props.id}/`,
       method: 'PATCH',
       headers: {
         Authorization: 'Token ' + `${this.state.token}`
@@ -103,16 +104,12 @@ class EditWorkout extends React.Component {
         workout: workout
       }
     })
-      .then((response) => this.setState({
-        createdWorkoutId: response.data.workout.id
-      })
-      )
       .then(() => msgAlert({
-        heading: 'New Workout Created With Success',
+        heading: 'Workout Updated With Success',
         message: messages.uploadWorkoutSuccess,
         variant: 'success'
       }))
-      .then(() => history.push(`/edit-workout/${this.state.createdWorkoutId}`))
+      .then(() => history.push(`/edit-workout/${this.state.workout.id}`))
       .catch(error => {
         msgAlert({
           heading: 'Could not upload a new workout, failed with error: ' + error.messages,
@@ -350,6 +347,7 @@ render () {
             <Form.Control name='notes' id='notes' onChange={this.handleChange} type='text' value={this.state.workout.notes} />
             <Button variant='primary' type='submit' className='create-submit'> Submit </Button>
           </Form>
+          <Link to={`/client-dashboard/${this.state.client.id}`}><Button variant='primary'> Return to Client Dashboard</Button></Link>
           {jsxExerciseList}
           <Button variant='primary' onClick={this.showEditModal}> Add Exercise </Button>
         </Col>
