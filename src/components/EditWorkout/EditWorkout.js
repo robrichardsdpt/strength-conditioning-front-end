@@ -363,9 +363,9 @@ class EditWorkout extends React.Component {
                   </DropdownButton>
                   <FormControl aria-describedby="basic-addon1" name={this.state.valueOfDropdown} placeholder={this.state.valueOfDropdown}type='number' min='0' step='0.1' onChange={this.handleIntensityChange}/>
                 </InputGroup>
-                <h5 className='big3name'>Percentage: <Form.Control placeholder={this.state.exercise.rx_percentage} name='rx_percentage' id='rx_percentage' type='number' min='0' step='0.1' onChange={this.handleExerciseChange}/></h5>
-                <h5 className='big3name'>RPE?: <Form.Control placeholder={this.state.exercise.rx_rpe} name='rx_rpe' id='rx_rpe' type='number' min='0' step='0.1' onChange={this.handleExerciseChange}/></h5>
-                <h5 className='big3name'>Weight: <Form.Control placeholder={this.state.exercise.weight} name='weight' id='weight' type='number' min='0' onChange={this.handleExerciseChange}/></h5>
+                <h5 className='big3name'>Percentage: {this.state.exercise.rx_percentage} </h5>
+                <h5 className='big3name'>RPE: {this.state.exercise.rx_rpe}</h5>
+                <h5 className='big3name'>Weight: {this.state.exercise.weight}</h5>
                 <h5 className='big3name'>Notes: <Form.Control placeholder='Notes' name='notes' id='names' type='text' onChange={this.handleExerciseChange}/></h5>
                 <Button type='submit'>Update</Button>
               </Form>

@@ -20,6 +20,7 @@ class EditWorkout extends React.Component {
     this.state = {
       workout: {},
       exercise: {
+        id: '',
         name: '',
         sets: '',
         repetitions: '',
@@ -239,7 +240,7 @@ handleExerciseSubmit = (event) => {
       variant: 'success'
     }))
     .then(() => {
-      history.push(`/edit-workout/${this.state.createdWorkoutId}`)
+      history.push(`/workout-dashboard/${this.state.workout.id}`)
       return axios({
         url: `${apiUrl}/exercises/`,
         method: 'GET',
@@ -308,7 +309,7 @@ render () {
   const jsxExerciseList = this.state.exercises.map(exercise => {
     if (exercise.workout === this.state.workout.id) {
       return (
-        <div key={exercise.id} size="4" className="stack">
+        <div key={exercise.id} size="4" className='exercise-header'>
           <Col className='card-header'>
             <h5 className= 'name'><Link to={`/exercise-dashboard/${exercise.id}`}><FaSearch className='magnifying-glass'/></Link>
               &emsp; {exercise.name}
@@ -375,9 +376,9 @@ render () {
                 </DropdownButton>
                 <FormControl aria-describedby="basic-addon1" name={this.state.valueOfDropdown} placeholder={this.state.valueOfDropdown}type='number' min='0' step='0.1' onChange={this.handleIntensityChange}/>
               </InputGroup>
-              <h5 className='big3name'>Percentage: <Form.Control placeholder={this.state.exercise.rx_percentage} name='rx_percentage' id='rx_percentage' type='number' min='0' step='0.1' onChange={this.handleExerciseChange}/></h5>
-              <h5 className='big3name'>RPE?: <Form.Control placeholder={this.state.exercise.rx_rpe} name='rx_rpe' id='rx_rpe' type='number' min='0' step='0.1' onChange={this.handleExerciseChange}/></h5>
-              <h5 className='big3name'>Weight: <Form.Control placeholder={this.state.exercise.weight} name='weight' id='weight' type='number' min='0' onChange={this.handleExerciseChange}/></h5>
+              <h5 className='big3name'>Percentage: {this.state.exercise.rx_percentage} </h5>
+              <h5 className='big3name'>RPE: {this.state.exercise.rx_rpe}</h5>
+              <h5 className='big3name'>Weight: {this.state.exercise.weight}</h5>
               <h5 className='big3name'>Notes: <Form.Control placeholder='Notes' name='notes' id='names' type='text' onChange={this.handleExerciseChange}/></h5>
               <Button type='submit'>Update</Button>
             </Form>
