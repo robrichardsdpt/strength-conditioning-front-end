@@ -47,7 +47,8 @@ class EditWorkout extends React.Component {
       token: this.props.user.token,
       workoutId: this.props.id,
       showEdit: false,
-      valueOfDropdown: ''
+      valueOfDropdown: '',
+      dropdownButtonTitle: 'Set Intensity'
     }
   }
 
@@ -64,12 +65,19 @@ class EditWorkout extends React.Component {
   }
 
   handleDropdownClick = (event) => {
-    console.log('clicked')
     const userInput = event.target.name
-    console.log(userInput)
+    let title = ''
+    if (userInput === 'rx_percentage') {
+      title = 'Percent of 1RM'
+    } else if (userInput === 'rx_rpe') {
+      title = 'RPE'
+    } else if (userInput === 'weight') {
+      title = 'Weight'
+    }
     // updating the state with our new copy
     this.setState({
-      valueOfDropdown: userInput
+      valueOfDropdown: userInput,
+      dropdownButtonTitle: title
     })
   }
   // handles all user input
@@ -260,6 +268,14 @@ handleExerciseSubmit = (event) => {
       })
     })
 }
+
+handleDeleteExercise = (event) => (
+  console.log('delete')
+)
+handleDeleteExerciseCancel = (event) => (
+  console.log('cancel')
+)
+
 componentDidMount () {
   axios({
     url: `${apiUrl}/workouts/${this.props.id}/`,
@@ -311,6 +327,15 @@ render () {
             <h5 className= 'name'><Link to={`/exercise-dashboard/${exercise.id}`}><FaSearch className='magnifying-glass'/></Link>
               &emsp; {exercise.name}
             </h5>
+            <DropdownButton
+              as={InputGroup.Prepend}
+              variant="outline-secondary"
+              title="Delete"
+              id="input-group-dropdown-1"
+            >
+              <Dropdown.Item name='delete' onClick={this.handleDeleteExercise}>Delete</Dropdown.Item>
+              <Dropdown.Item name='cancel' onClick={this.handleDeleteExerciseCancel}>Cancel</Dropdown.Item>
+            </DropdownButton>
           </Col>
           <Col>
             Sets: &emsp; &emsp; {exercise.sets}
@@ -365,7 +390,7 @@ render () {
                 <DropdownButton
                   as={InputGroup.Prepend}
                   variant="outline-secondary"
-                  title="Dropdown"
+                  title={this.state.dropdownButtonTitle}
                   id="input-group-dropdown-1"
                 >
                   <Dropdown.Item name='rx_percentage' onClick={this.handleDropdownClick}>Percentage</Dropdown.Item>
