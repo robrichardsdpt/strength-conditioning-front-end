@@ -107,7 +107,7 @@ class GetWorkouts extends React.Component {
       return (
         <div key={workout.id} size="4" className="stack">
           <Col className='card-header'>
-            <h5 className= 'client-name'>{workout.rx_date}  <Link to={`/workout-dashboard/${workout.id}`}><FaSearch/></Link></h5>
+            <h5 className= 'client-name'>{workout.rx_date}  <Link to={`/workout-dashboard/${workout.id}`}><span className="magnifying-glass"><FaSearch/></span></Link></h5>
             Notes:  {workout.notes}
           </Col>
         </div>

@@ -365,7 +365,7 @@ render () {
       <h1 className='email-addy'>{this.props.user.email}</h1>
       <div className='create-stack'>
         <div className='create-header'>
-          <h3 className='title'>Create a new workout</h3>
+          <h3 className='title'>Make Changes to Your Workout:</h3>
         </div>
         <Col>
           <Form onSubmit={this.handleSubmit} >
