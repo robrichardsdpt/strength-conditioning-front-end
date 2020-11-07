@@ -79,7 +79,7 @@ class Dashboard extends React.Component {
 
   handleEditSubmit = (event) => {
     event.preventDefault()
-    const { msgAlert, history } = this.props
+    const { msgAlert } = this.props
     const client = this.state.client
     console.log(this.state.client)
     axios({
@@ -92,16 +92,31 @@ class Dashboard extends React.Component {
         client: client
       }
     })
-      .then((response) => this.setState({
-        showEdit: false
-      })
+      .then((response) => {
+        this.setState({
+          showEdit: false
+        })
+        return (
+          axios({
+            url: `${apiUrl}/clients/${this.props.id}/`,
+            method: 'GET',
+            headers: {
+              Authorization: 'Token ' + `${this.state.token}`
+            }
+          })
+        )
+      }
       )
       .then(() => msgAlert({
         heading: 'Client Updated With Success',
         message: messages.uploadClientSuccess,
         variant: 'success'
       }))
-      .then(() => history.push(`/client-dashboard/${this.state.clientId}`))
+      .then(response => {
+        this.setState({
+          client: response.data.client
+        })
+      })
       .catch(error => {
         msgAlert({
           heading: 'Could not upload your client, failed with error: ' + error.messages,
