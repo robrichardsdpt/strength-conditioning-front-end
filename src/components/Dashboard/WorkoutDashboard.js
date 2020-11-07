@@ -230,7 +230,7 @@ handleExerciseChange = (event) => {
 
 handleExerciseSubmit = (event) => {
   event.preventDefault()
-  const { msgAlert, history } = this.props
+  const { msgAlert } = this.props
   const exercise = this.state.exercise
   console.log(exercise)
   axios({
@@ -245,16 +245,16 @@ handleExerciseSubmit = (event) => {
   })
     .then((response) =>
       this.setState({
-        createdExerciseId: response.data.exercise.id
+        createdExerciseId: response.data.exercise.id,
+        showEdit: false
       })
     )
     .then(() => msgAlert({
-      heading: 'New Workout Created With Success',
-      message: messages.uploadWorkoutSuccess,
+      heading: 'New Exercise Created With Success',
+      message: messages.uploadExerciseSuccess,
       variant: 'success'
     }))
     .then(() => {
-      history.push(`/workout-dashboard/${this.state.workout.id}`)
       return axios({
         url: `${apiUrl}/exercises/`,
         method: 'GET',
@@ -271,19 +271,58 @@ handleExerciseSubmit = (event) => {
     })
     .catch(error => {
       msgAlert({
-        heading: 'Could not upload a new workout, failed with error: ' + error.messages,
-        message: messages.uploadWorkoutFailure,
+        heading: 'Could not upload a new Exercise, failed with error: ' + error.messages,
+        message: messages.uploadExerciseFailure,
         variant: 'danger'
       })
     })
 }
 
-handleDeleteExercise = (event) => (
-  console.log('delete')
-)
+handleDeleteExercise = (event) => {
+  const { msgAlert } = this.props
+  const exerciseId = event.target.name
+  axios({
+    url: `${apiUrl}/exercises/${exerciseId}/`,
+    method: 'DELETE',
+    headers: {
+      Authorization: 'Token ' + `${this.state.token}`
+    }
+  })
+    .then(() => msgAlert({
+      heading: 'Successfully Deleted Exercise',
+      message: messages.deleteExerciseSuccess,
+      variant: 'success'
+    }))
+    .then(() => {
+      return axios({
+        url: `${apiUrl}/exercises/`,
+        method: 'GET',
+        headers: {
+          Authorization: 'Token ' + `${this.state.token}`
+        }
+      })
+    }
+    )
+    .then(response => {
+      console.log(response.data.exercises)
+      this.setState({
+        exercises: response.data.exercises
+      })
+    })
+    .catch(error => {
+      msgAlert({
+        heading: 'Could not delete the exercise, failed with error: ' + error.messages,
+        message: messages.deleteExerciseFailure,
+        variant: 'danger'
+      })
+    })
+    .catch(console.error)
+}
+
 handleDeleteExerciseCancel = (event) => (
-  console.log('cancel')
+  console.log(event.target)
 )
+
 handleDeleteWorkout = (event) => (
   console.log('delete')
 )
@@ -351,8 +390,8 @@ render () {
                 title="Delete Exercise"
                 id="input-group-dropdown-1"
               >
-                <Dropdown.Item name='delete' onClick={this.handleDeleteExercise}>Delete</Dropdown.Item>
-                <Dropdown.Item name='cancel' onClick={this.handleDeleteExerciseCancel}>Cancel</Dropdown.Item>
+                <Dropdown.Item name={exercise.id} eventKey={exercise.id} onClick={this.handleDeleteExercise}>Delete</Dropdown.Item>
+                <Dropdown.Item name={exercise.id} eventKey={exercise.id} onClick={this.handleDeleteExerciseCancel}>Cancel</Dropdown.Item>
               </DropdownButton>
             </Col>
           </Row>
