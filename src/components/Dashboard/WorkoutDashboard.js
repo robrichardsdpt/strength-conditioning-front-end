@@ -448,15 +448,6 @@ render () {
             <Form.Control name='notes' id='notes' onChange={this.handleChange} type='text' value={this.state.workout.notes} />
             <Button variant='primary' type='submit' className='create-submit'> Submit </Button>
           </Form>
-          <DropdownButton
-            as={InputGroup.Prepend}
-            variant="secondary"
-            title="Delete Workout"
-            id="input-group-dropdown-1"
-          >
-            <Dropdown.Item name={this.state.workout.id} onClick={this.handleDeleteWorkout}>Delete</Dropdown.Item>
-            <Dropdown.Item name='cancel' onClick={this.handleDeleteWorkoutCancel}>Cancel</Dropdown.Item>
-          </DropdownButton>
           <Link to={`/client-dashboard/${this.state.client.id}`}><Button variant='primary'> Return to Client Dashboard</Button></Link>
           {jsxExerciseList}
           <Button variant='primary' onClick={this.showEditModal}> Add Exercise </Button>
@@ -492,6 +483,15 @@ render () {
             </Form>
           </Col>
         </Modal>
+        <DropdownButton
+          as={InputGroup.Prepend}
+          variant="secondary"
+          title="Delete Workout"
+          id="input-group-dropdown-1"
+        >
+          <Dropdown.Item name={this.state.workout.id} onClick={this.handleDeleteWorkout}>Delete</Dropdown.Item>
+          <Dropdown.Item name='cancel' onClick={this.handleDeleteWorkoutCancel}>Cancel</Dropdown.Item>
+        </DropdownButton>
       </div>
     </div>
   )

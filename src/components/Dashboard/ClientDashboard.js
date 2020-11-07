@@ -107,16 +107,16 @@ class Dashboard extends React.Component {
         )
       }
       )
-      .then(() => msgAlert({
-        heading: 'Client Updated With Success',
-        message: messages.uploadClientSuccess,
-        variant: 'success'
-      }))
       .then(response => {
         this.setState({
           client: response.data.client
         })
       })
+      .then(() => msgAlert({
+        heading: 'Client Updated With Success',
+        message: messages.uploadClientSuccess,
+        variant: 'success'
+      }))
       .catch(error => {
         msgAlert({
           heading: 'Could not upload your client, failed with error: ' + error.messages,
