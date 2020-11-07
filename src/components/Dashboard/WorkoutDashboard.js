@@ -3,6 +3,7 @@ import axios from 'axios'
 import apiUrl from '../../apiConfig'
 import { withRouter, Link } from 'react-router-dom'
 import Col from 'react-bootstrap/Col'
+import Row from 'react-bootstrap/Row'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import messages from '../AutoDismissAlert/messages'
@@ -327,35 +328,41 @@ render () {
     if (exercise.workout === this.state.workout.id) {
       return (
         <div key={exercise.id} size="4" className='exercise-header'>
-          <Col className='card-header'>
-            <h5 className= 'name'><Link to={`/exercise-dashboard/${exercise.id}`}><FaSearch className='magnifying-glass'/></Link>
-              &emsp; {exercise.name}
-            </h5>
-            <DropdownButton
-              as={InputGroup.Prepend}
-              variant="outline-secondary"
-              title="Delete"
-              id="input-group-dropdown-1"
-            >
-              <Dropdown.Item name='delete' onClick={this.handleDeleteExercise}>Delete</Dropdown.Item>
-              <Dropdown.Item name='cancel' onClick={this.handleDeleteExerciseCancel}>Cancel</Dropdown.Item>
-            </DropdownButton>
-          </Col>
-          <Col>
-            Sets: &emsp; &emsp; {exercise.sets}
-          </Col>
-          <Col>
-            Repetitions: &emsp; {exercise.repetitions}
-          </Col>
-          <Col>
+          <Row className ='row-exercise-db'>
+            <Col className='card-header'>
+              <h5><Link to={`/exercise-dashboard/${exercise.id}`}><FaSearch className='magnifying-glass'/></Link>
+                &emsp; {exercise.name}
+              </h5>
+            </Col>
+            <Col>
+              <DropdownButton
+                as={InputGroup.Prepend}
+                variant="outline-primary"
+                title="Delete"
+                id="input-group-dropdown-1"
+              >
+                <Dropdown.Item name='delete' onClick={this.handleDeleteExercise}>Delete</Dropdown.Item>
+                <Dropdown.Item name='cancel' onClick={this.handleDeleteExerciseCancel}>Cancel</Dropdown.Item>
+              </DropdownButton>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              Sets: &emsp; {exercise.sets}
+            </Col>
+            <Col>
+              Repetitions: &emsp; {exercise.repetitions}
+            </Col>
+            <Col>
             Percentage target: &emsp; {exercise.rx_percentage}
-          </Col>
-          <Col>
+            </Col>
+            <Col>
           RPE target: &emsp; {exercise.rx_rpe}
-          </Col>
-          <Col>
+            </Col>
+            <Col>
           Target work weight: &emsp; {exercise.weight}
-          </Col>
+            </Col>
+          </Row>
         </div>
       )
     }
