@@ -72,7 +72,7 @@ class EditWorkout extends React.Component {
     let value = ''
     if (userInput === 'rx_percentage') {
       title = 'Percent of 1RM'
-      value = 'i.e. 75%'
+      value = 'i.e. 75'
     } else if (userInput === 'rx_rpe') {
       title = 'RPE'
       value = 'i.e. 7'
@@ -284,6 +284,12 @@ handleDeleteExercise = (event) => (
 handleDeleteExerciseCancel = (event) => (
   console.log('cancel')
 )
+handleDeleteWorkout = (event) => (
+  console.log('delete')
+)
+handleDeleteWorkoutCancel = (event) => (
+  console.log('cancel')
+)
 
 componentDidMount () {
   axios({
@@ -341,8 +347,8 @@ render () {
             <Col>
               <DropdownButton
                 as={InputGroup.Prepend}
-                variant="outline-primary"
-                title="Delete"
+                variant="primary"
+                title="Delete Exercise"
                 id="input-group-dropdown-1"
               >
                 <Dropdown.Item name='delete' onClick={this.handleDeleteExercise}>Delete</Dropdown.Item>
@@ -387,6 +393,15 @@ render () {
             <Form.Control name='notes' id='notes' onChange={this.handleChange} type='text' value={this.state.workout.notes} />
             <Button variant='primary' type='submit' className='create-submit'> Submit </Button>
           </Form>
+          <DropdownButton
+            as={InputGroup.Prepend}
+            variant="secondary"
+            title="Delete Workout"
+            id="input-group-dropdown-1"
+          >
+            <Dropdown.Item name='delete' onClick={this.handleDeleteWorkout}>Delete</Dropdown.Item>
+            <Dropdown.Item name='cancel' onClick={this.handleDeleteWorkoutCancel}>Cancel</Dropdown.Item>
+          </DropdownButton>
           <Link to={`/client-dashboard/${this.state.client.id}`}><Button variant='primary'> Return to Client Dashboard</Button></Link>
           {jsxExerciseList}
           <Button variant='primary' onClick={this.showEditModal}> Add Exercise </Button>
