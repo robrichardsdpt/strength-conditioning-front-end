@@ -15,6 +15,9 @@ import messages from '../AutoDismissAlert/messages'
 import GetWorkouts from '../GetWorkouts/GetWorkouts'
 import PercentageGraph from '../PercentageGraph/PercentageGraph'
 import PercentOfTotal from '../PercentageGraph/PercentOfTotal'
+import InputGroup from 'react-bootstrap/InputGroup'
+import DropdownButton from 'react-bootstrap/DropdownButton'
+import Dropdown from 'react-bootstrap/Dropdown'
 
 class Dashboard extends React.Component {
   constructor (props) {
@@ -126,6 +129,28 @@ class Dashboard extends React.Component {
       })
   }
 
+  handleDeleteClient = (event) => {
+    const { msgAlert, history } = this.props
+    axios({
+      url: `${apiUrl}/clients/${this.props.id}/`,
+      method: 'DELETE',
+      headers: {
+        Authorization: 'Token ' + `${this.state.token}`
+      }
+    })
+      .then(() => msgAlert({
+        heading: 'Successfully Client Workout',
+        message: messages.deleteClientSuccess,
+        variant: 'success'
+      }))
+      .then(() => history.push('/dashboard/'))
+      .catch(console.error)
+  }
+
+  handleDeleteClientCancel = (event) => (
+    console.log('cancel')
+  )
+
   componentDidMount () {
     axios({
       url: `${apiUrl}/clients/${this.props.id}/`,
@@ -224,6 +249,15 @@ class Dashboard extends React.Component {
             </Form>
           </Col>
         </Modal>
+        <DropdownButton
+          as={InputGroup.Prepend}
+          variant="secondary"
+          title="Delete Client"
+          id="input-group-dropdown-1"
+        >
+          <Dropdown.Item name={this.state.client.id} onClick={this.handleDeleteClient}>Delete</Dropdown.Item>
+          <Dropdown.Item name='cancel' onClick={this.handleDeleteClientCancel}>Cancel</Dropdown.Item>
+        </DropdownButton>
       </Container>
     )
   }
