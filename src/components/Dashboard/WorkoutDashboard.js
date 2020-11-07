@@ -323,9 +323,25 @@ handleDeleteExerciseCancel = (event) => (
   console.log(event.target)
 )
 
-handleDeleteWorkout = (event) => (
-  console.log('delete')
-)
+handleDeleteWorkout = (event) => {
+  const { msgAlert, history } = this.props
+  const workoutId = event.target.name
+  axios({
+    url: `${apiUrl}/workouts/${workoutId}/`,
+    method: 'DELETE',
+    headers: {
+      Authorization: 'Token ' + `${this.state.token}`
+    }
+  })
+    .then(() => msgAlert({
+      heading: 'Successfully Deleted Workout',
+      message: messages.deleteWorkoutSuccess,
+      variant: 'success'
+    }))
+    .then(() => history.push(`/client-dashboard/${this.state.client.id}`))
+    .catch(console.error)
+}
+
 handleDeleteWorkoutCancel = (event) => (
   console.log('cancel')
 )
@@ -438,7 +454,7 @@ render () {
             title="Delete Workout"
             id="input-group-dropdown-1"
           >
-            <Dropdown.Item name='delete' onClick={this.handleDeleteWorkout}>Delete</Dropdown.Item>
+            <Dropdown.Item name={this.state.workout.id} onClick={this.handleDeleteWorkout}>Delete</Dropdown.Item>
             <Dropdown.Item name='cancel' onClick={this.handleDeleteWorkoutCancel}>Cancel</Dropdown.Item>
           </DropdownButton>
           <Link to={`/client-dashboard/${this.state.client.id}`}><Button variant='primary'> Return to Client Dashboard</Button></Link>
