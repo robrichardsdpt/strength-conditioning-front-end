@@ -49,7 +49,8 @@ class EditWorkout extends React.Component {
       workoutId: this.props.id,
       showEdit: false,
       valueOfDropdown: 'Click drop down to choose.',
-      dropdownButtonTitle: 'Set Intensity'
+      dropdownButtonTitle: 'Set Intensity',
+      nameOfDropdown: ''
     }
   }
 
@@ -82,7 +83,8 @@ class EditWorkout extends React.Component {
     // updating the state with our new copy
     this.setState({
       valueOfDropdown: value,
-      dropdownButtonTitle: title
+      dropdownButtonTitle: title,
+      nameOfDropdown: userInput
     })
   }
   // handles all user input
@@ -141,8 +143,10 @@ class EditWorkout extends React.Component {
     if (exerciseKey === 'rx_percentage') {
       let targetWeight = 0
       let targetRPE = 0
+      let roundTargetWeight = 0
       if (this.state.exercise.name.toLowerCase() === 'squat') {
         targetWeight = Math.floor((userInput / 100) * this.state.client.squat1RM)
+        roundTargetWeight = Math.ceil(targetWeight / 5) * 5
         targetRPE = Math.floor(userInput / 10)
       } else if (this.state.exercise.name.toLowerCase() === 'deadlift') {
         targetWeight = Math.floor((userInput / 100) * this.state.client.deadlift1RM)
@@ -156,7 +160,7 @@ class EditWorkout extends React.Component {
       // updating the key in our state with what the user typed in
       exerciseCopy['rx_percentage'] = userInput
       exerciseCopy['rx_rpe'] = targetRPE
-      exerciseCopy['weight'] = targetWeight
+      exerciseCopy['weight'] = roundTargetWeight
       exerciseCopy['workout'] = this.state.workout.id
       // updating the state with our new copy
       this.setState({ exercise: exerciseCopy
@@ -408,7 +412,7 @@ render () {
                   <Dropdown.Item name='rx_rpe' onClick={this.handleDropdownClick}>RPE</Dropdown.Item>
                   <Dropdown.Item name='weight' onClick={this.handleDropdownClick}>Weight used</Dropdown.Item>
                 </DropdownButton>
-                <FormControl aria-describedby="basic-addon1" name={this.state.valueOfDropdown} placeholder={this.state.valueOfDropdown}type='number' min='0' step='0.1' onChange={this.handleIntensityChange}/>
+                <FormControl aria-describedby="basic-addon1" name={this.state.nameOfDropdown} placeholder={this.state.valueOfDropdown}type='number' min='0' step='0.1' onChange={this.handleIntensityChange}/>
               </InputGroup>
               <h5 className='big3name'>Percentage: {this.state.exercise.rx_percentage} </h5>
               <h5 className='big3name'>RPE: {this.state.exercise.rx_rpe}</h5>
