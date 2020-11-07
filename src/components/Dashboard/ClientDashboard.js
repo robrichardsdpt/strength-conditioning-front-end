@@ -233,9 +233,10 @@ class Dashboard extends React.Component {
         <Modal show={this.state.showEdit} client={this.state.client} handleClose={this.hideEditModal} handleEditSubmit={this.handleEditSubmit} handleEditChanges={this.handEditChanges}>
           <Col className='coach-data'>
             <Form onSubmit={this.handleEditSubmit}>
-              <h2 className="name">{this.state.client.name}</h2>
+              <h2 className="name">{this.state.client.name} </h2>
               <h4 className="email-addy">{this.state.client.email}</h4>
-              <h4 className='title'>Client Goals: </h4> <p className='content'> {this.state.client.notes} </p>
+              <h4 className='title'>Client Goals: </h4>
+              <Form.Control value={this.state.client.notes} name='notes' id='notes' as='textarea' rows={3} onChange={this.handleEditChanges}/>
               <h5 className='big3name'>Squat: <Form.Control value={this.state.client.squat1RM_goal} name='squat1RM_goal' id='squat1RM_goal' type='number' min='0' onChange={this.handleEditChanges}/></h5>
               <h5 className='big3name'>Bench: <Form.Control value={this.state.client.bench1RM_goal} name='bench1RM_goal' id='bench1RM_goal' type='number' min='0' onChange={this.handleEditChanges}/></h5>
               <h5 className='big3name'>Deadlift: <Form.Control value={this.state.client.deadlift1RM_goal} name='deadlift1RM_goal' id='deadlift1RM_goal' type='number' min='0' onChange={this.handleEditChanges}/></h5>
