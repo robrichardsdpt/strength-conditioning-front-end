@@ -19,7 +19,12 @@ class EditWorkout extends React.Component {
     super(props)
     console.log(this.props)
     this.state = {
-      workout: {},
+      workout: {
+        id: '',
+        notes: '',
+        client: '',
+        date: ''
+      },
       exercise: {
         id: '',
         name: '',
@@ -140,6 +145,7 @@ class EditWorkout extends React.Component {
     // get the name of the input that the user typed in
     const exerciseKey = event.target.name
     // make a copy of the state
+    console.log(this.state.exercise.name)
     if (exerciseKey === 'rx_percentage') {
       let targetWeight = 0
       let targetRPE = 0
@@ -150,9 +156,11 @@ class EditWorkout extends React.Component {
         targetRPE = Math.floor(userInput / 10)
       } else if (this.state.exercise.name.toLowerCase() === 'deadlift') {
         targetWeight = Math.floor((userInput / 100) * this.state.client.deadlift1RM)
+        roundTargetWeight = Math.ceil(targetWeight / 5) * 5
         targetRPE = Math.floor(userInput / 10)
       } else if (this.state.exercise.name.toLowerCase() === 'bench' || this.state.exercise.name.toLowerCase() === 'bench press') {
         targetWeight = Math.floor((userInput / 100) * this.state.client.bench1RM)
+        roundTargetWeight = Math.ceil(targetWeight / 5) * 5
         targetRPE = Math.floor(userInput / 10)
       }
       const exerciseCopy = Object.assign({}, this.state.exercise) // to get the original state of the run and to copy it into another object to bypass inability to assign to a state
